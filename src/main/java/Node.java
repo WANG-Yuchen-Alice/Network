@@ -45,5 +45,7 @@ public class Node {
         return Math.sqrt(Math.pow((this.i - ano.getI()), 2) + Math.pow(this.j - ano.getJ(), 2));
     }
 
-
+    public String toString() {
+        return "[" + this.i + ", " + this.j + "]";
+    }
 }

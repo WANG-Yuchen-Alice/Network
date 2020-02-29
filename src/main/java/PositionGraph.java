@@ -10,22 +10,25 @@ public class PositionGraph {
     public int N;
     public int[][] positionGraph;
 
-    public PositionGraph(int N) {
-        this.N = N;
-        this.positionGraph = new int[N][N];
-        generateGraph(this.N);
+    public PositionGraph(int[][] positionGraph) {
+        this.N = positionGraph.length;
+        this.positionGraph = positionGraph;
     }
 
-    public void generateGraph(int N) {
-        Random random = new Random();
-        int counter = 0;
-        while (counter < N) {
-            int this_i = random.nextInt(N);
-            int this_j = random.nextInt(N);
-            if (this.positionGraph[this_i][this_j] != 1) {
-                counter++;
-                this.positionGraph[this_i][this_j] = 1;
+    public void displayPositionGraph() {
+        for (int i = 0; i < this.N * 2 - 1; i++) {
+            System.out.print("=");
+        }
+        System.out.println();
+        for (int i = 0; i < this.N; i++) {
+            for (int j = 0; j < this.N; j++) {
+                System.out.print(this.positionGraph[i][j] + " ");
             }
+            System.out.println();
+        }
+        for (int i = 0; i < this.N * 2 - 1; i++) {
+            System.out.print("=");
         }
     }
+
 }
