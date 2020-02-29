@@ -2,12 +2,17 @@ package main.java;
 
 import java.util.Random;
 
-public class Graph {
+/**
+ * A position graph marks the physical position of all the nodes.
+ * 0 / 1 represents whether there is a node in tha specific position.
+ */
+public class PositionGraph {
     public int N;
     public int[][] positionGraph;
 
-    public Graph (int N) {
+    public PositionGraph(int N) {
         this.N = N;
+        this.positionGraph = new int[N][N];
         generateGraph(this.N);
     }
 
