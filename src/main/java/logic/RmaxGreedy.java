@@ -25,7 +25,7 @@ public class RmaxGreedy {
         this.N = nodeList.getSize();
         this.nodeList = nodeList;
         this.positionGraph = positionGraph;
-        this.rmax = 0.5 * Math.sqrt(N);
+        this.rmax = Math.sqrt(N);
         this.maxHop = (int)Math.sqrt(N);
     }
 
@@ -36,6 +36,7 @@ public class RmaxGreedy {
     public void run() {
         System.out.println("RmaxGreedy is running");
         System.out.println("max hops: " + this.maxHop);
+        System.out.println("goal: " + (int)(0.8*this.N));
         this.positionGraph.displayPositionGraph();
         Random random = new Random();
         Node thisNode = nodeList.getNode(random.nextInt(N));
@@ -47,11 +48,10 @@ public class RmaxGreedy {
         int hops = 1;
         boolean failed = false;
 
-        ArrayList<Node> receivers = thisNode.nodesInRange(this.nodeList.getList(), this.rmax);
-        getNewReceivers(receivers, tag);
+        ArrayList<Node> receivers = getNewReceivers(thisNode, this.nodeList.getList(), tag, this.rmax);
         System.out.println("In hop #" + hops + ", #new receivers = " + receivers.size());
         markNewReceivers(receivers, tag);
-        while (tagCounter.get(tag) >= (int)0.95 * this.N) {
+        while (tagCounter.get(tag) < (int)(0.8 * this.N)) {
             hops++;
             if (hops > this.maxHop) {
                 System.out.println("maxTime exceeded");
@@ -59,28 +59,42 @@ public class RmaxGreedy {
                 break;
             }
             if (receivers.size() <= 0) {
+                System.out.println("no more receivers in this hop");
                 failed = true;
                 break;
             }
-            thisNode = chooseFarest(thisNode, receivers);
-            receivers = thisNode.nodesInRange(this.nodeList.getList(), this.rmax);
-            getNewReceivers(receivers, tag);
+            thisNode = chooseGreedyBest(thisNode, receivers, tag);
+            receivers = getNewReceivers(thisNode, this.nodeList.getList(), tag, this.rmax);
             System.out.println("In hop #" + hops + ", #new receivers = " + receivers.size());
             markNewReceivers(receivers, tag);
         }
         if(failed) {
             System.out.println("Failed to meet the standard, there are only: " + tagCounter.get(tag) + " receivers");
         } else {
-            System.out.println("Succeed. #hops: " + hops);
+            System.out.println("Succeed. #hops: " + hops + "receivers: " + tagCounter.get(tag));
         }
     }
 
-    public Node chooseFarest(Node original, ArrayList<Node> receivers) {
-        return original.getFarest(receivers);
+    public Node chooseGreedyBest(Node thisNode, ArrayList<Node> receiverPool, String tag) {
+        int maxReceiver = -1;
+        int index = -1;
+        ArrayList<Node> temp = new ArrayList<>();
+        for (int i = 0; i < receiverPool.size(); i++) {
+            Node candidate = receiverPool.get(i);
+            temp = getNewReceivers(candidate, this.nodeList.getList(), tag, this.rmax);
+            //System.out.println("test, #rec: " + temp.size());
+            if (temp.size() > maxReceiver) {
+                index = i;
+                maxReceiver = temp.size();
+            }
+        }
+        return receiverPool.get(index);
     }
 
+
     // Trim original list to get only a list of new receivers, not decided (hence marked yet)
-    public void getNewReceivers(ArrayList<Node> receivers, String tag) {
+    public ArrayList<Node> getNewReceivers(Node thisNode, ArrayList<Node> nodeList, String tag, double r) {
+        ArrayList<Node> receivers = thisNode.nodesInRange(nodeList, r);
         int i = 0;
         while(i < receivers.size()) {
             if (receivers.get(i).isKnown(tag)) {
@@ -88,6 +102,7 @@ public class RmaxGreedy {
             }
             i++;
         }
+        return receivers;
     }
 
     // after the decision, mark the receivers
@@ -99,5 +114,10 @@ public class RmaxGreedy {
         int newCnt = prevCnt + receivers.size();
         tagCounter.put(tag, newCnt);
     }
+
+    public Node chooseFarest(Node original, ArrayList<Node> receivers) {
+        return original.getFarest(receivers);
+    }
+
 
 }
