@@ -104,6 +104,7 @@ public class RmaxGreedy {
     }
 
     public Node[] chooseGreedyBest(Node thisNode, ArrayList<Node> receiverPool, String tag) {
+        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx -1 might not be updated
         int maxReceiver = -1, secondReceiver = -1;
         int index1 = -1, index2 = -1;
         ArrayList<Node> temp = new ArrayList<>();

@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tool/SignalGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583045923447</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick two best next nodes with recursion- works for N = 10">
+      <created>1583058757805</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583058757805</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -125,7 +128,8 @@
     <MESSAGE value="NodeList.class" />
     <MESSAGE value="RmaxGreedy_v0.1_farest next node" />
     <MESSAGE value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick the best next node - works" />
-    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick the best next node - works" />
+    <MESSAGE value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick two best next nodes with recursion- works for N = 10" />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick two best next nodes with recursion- works for N = 10" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -144,30 +148,30 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1582948786474" />
-    <state x="296" y="0" key="CommitChangelistDialog2" timestamp="1583045921431">
+    <state x="296" y="0" key="CommitChangelistDialog2" timestamp="1583058755253">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="296" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583045921431" />
+    <state x="296" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583058755253" />
     <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1583048469556">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1583048469556" />
-    <state width="1237" height="41" key="GridCell.Tab.0.bottom" timestamp="1583058656273">
+    <state width="1237" height="505" key="GridCell.Tab.0.bottom" timestamp="1583058771472">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="41" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1583058656273" />
-    <state width="1237" height="41" key="GridCell.Tab.0.center" timestamp="1583058656273">
+    <state width="1237" height="505" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
+    <state width="1237" height="505" key="GridCell.Tab.0.center" timestamp="1583058771472">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="41" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1583058656273" />
-    <state width="1237" height="41" key="GridCell.Tab.0.left" timestamp="1583058656273">
+    <state width="1237" height="505" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
+    <state width="1237" height="505" key="GridCell.Tab.0.left" timestamp="1583058771472">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="41" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1583058656273" />
-    <state width="1237" height="41" key="GridCell.Tab.0.right" timestamp="1583058656273">
+    <state width="1237" height="505" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
+    <state width="1237" height="505" key="GridCell.Tab.0.right" timestamp="1583058771472">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="41" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1583058656273" />
+    <state width="1237" height="505" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
