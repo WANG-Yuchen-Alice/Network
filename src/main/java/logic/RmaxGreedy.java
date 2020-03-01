@@ -82,7 +82,7 @@ public class RmaxGreedy {
         for (int i = 0; i < receiverPool.size(); i++) {
             Node candidate = receiverPool.get(i);
             temp = getNewReceivers(candidate, this.nodeList.getList(), tag, this.rmax);
-            //System.out.println("test, #rec: " + temp.size());
+            // System.out.println("test, #rec: " + temp.size());
             if (temp.size() > maxReceiver) {
                 index = i;
                 maxReceiver = temp.size();
@@ -118,6 +118,4 @@ public class RmaxGreedy {
     public Node chooseFarest(Node original, ArrayList<Node> receivers) {
         return original.getFarest(receivers);
     }
-
-
 }
