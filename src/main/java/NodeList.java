@@ -17,6 +17,10 @@ public class NodeList {
         generateNodeList();
     }
 
+    public ArrayList<Node> getList() {
+        return this.nodeList;
+    }
+
     private void generateNodeList() {
         this.nodeList.clear();
         N = this.N;
@@ -33,6 +37,14 @@ public class NodeList {
                 counter++;
             }
         }
+    }
+
+    public Node getNode(int index) {
+        return this.nodeList.get(index);
+    }
+
+    public int getSize() {
+        return this.nodeList.size();
     }
 
     public PositionGraph nodeListToPositionGraph() {
