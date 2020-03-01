@@ -29,7 +29,7 @@ public class NodeList {
         while (counter < N) {
             int this_i = random.nextInt(N);
             int this_j = random.nextInt(N);
-            Node thisNode = new Node (this_i, this_j);
+            Node thisNode = new Node (this_i, this_j, counter);
             String nodeStr = thisNode.toString();
             if (!this.nodeSet_String.contains(nodeStr)) {
                 this.nodeList.add(thisNode);

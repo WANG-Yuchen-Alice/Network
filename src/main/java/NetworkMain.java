@@ -4,12 +4,13 @@ import main.java.logic.RmaxGreedy;
 
 public class NetworkMain {
 
-    public static final int N = 60;
+    public static final int N = 100;
 
     public static void main(String[] args) {
         NodeList nodeList = new NodeList(N);
         PositionGraph positionGraph = nodeList.nodeListToPositionGraph();
-        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList, positionGraph);
+        positionGraph.displayPositionGraph();
+        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList());
         rmaxGreedy.runSingle();
     }
 }

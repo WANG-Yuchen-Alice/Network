@@ -1,8 +1,6 @@
 package main.java.logic;
 
 import main.java.Node;
-import main.java.NodeList;
-import main.java.PositionGraph;
 import main.java.tool.SignalGenerator;
 
 import java.util.ArrayList;
@@ -17,54 +15,49 @@ import java.util.Random;
  */
 public class RmaxGreedy {
     public int N;
-    public NodeList nodeList;
-    public PositionGraph positionGraph;
+    public ArrayList<Node> nodeList;
     public double rmax;
     public HashMap<String, Integer> tagCounter;
     public int maxHop;
 
-    public RmaxGreedy(NodeList nodeList, PositionGraph positionGraph) {
-        this.N = nodeList.getSize();
+    public RmaxGreedy(ArrayList<Node> nodeList) {
+        this.N = nodeList.size();
         this.nodeList = nodeList;
-        this.positionGraph = positionGraph;
         this.rmax = 2 * Math.sqrt(N);
         tagCounter = new HashMap<>();
         this.maxHop = (int)Math.sqrt(N);
     }
 
-    public void setRmax(double newR) {
-        this.rmax = newR;
-    }
-
     // WARNING: choose between single and multiple
     // start with one node, eeach time choose two more senders
     public void runSingle() {
+        tagCounter.clear();
         System.out.println("RmaxGreedy_single is running");
         System.out.println("max hops: " + this.maxHop);
         System.out.println("goal: " + (int)(0.8*this.N));
-        this.positionGraph.displayPositionGraph();
 
         Random random = new Random();
-        Node thisNode = this.nodeList.getNode(random.nextInt(N));
+        int startIndex = random.nextInt(N);
 
         //There is only one message
         String tag = "try1";
         tagCounter.put(tag, 1);
+        this.nodeList.get(startIndex).addTag(tag);
 
         int hops = 1;
-        boolean failed = false;
 
-        ArrayList<Node> receivers = getNewReceivers(thisNode, this.nodeList.getList(), tag, this.rmax);
+        ArrayList<Integer> receivers = getNewReceivers(startIndex, this.nodeList, tag, this.rmax);
         markNewReceivers(receivers, tag);
 
-        findTwoAndProcess(thisNode, receivers, tag, hops);
+        findTwoAndProcess(startIndex, receivers, tag, hops);
 
         System.out.println("Done. " + " receivers: " + tagCounter.get(tag));
 
     }
 
-    public void findTwoAndProcess(Node thisNode, ArrayList<Node> receivers, String tag, int hops) {
-        if (tagCounter.get(tag) > (int)(0.8 * this.N) || receivers.size() <= 0) {
+    public void findTwoAndProcess(int oriIndex, ArrayList<Integer> receivers, String tag, int hops) {
+        if (tagCounter.get(tag) > (int)(0.8 * this.N)) {
+            System.out.println("Success");
             return;
         }
         if (hops >= this.maxHop) {
@@ -73,18 +66,28 @@ public class RmaxGreedy {
         }
         hops++;
         if (receivers.size() < 2) {
+            System.out.println("less than 2");
             return;
         }
-        Node[] bestTwo = chooseGreedyBest(thisNode, receivers, tag);
-        Node first = bestTwo[0];
-        Node second = bestTwo[1];
-        ArrayList<Node> firstReceivers = getNewReceivers(first, this.nodeList.getList(), tag, this.rmax);
-        markNewReceivers(firstReceivers, tag);
-        ArrayList<Node> secondReceivers = getNewReceivers(second, this.nodeList.getList(), tag, this.rmax);
-        markNewReceivers(secondReceivers, tag);
+        int first = chooseGreedyBest(oriIndex, receivers, tag);
+        System.out.println("#1: " + this.nodeList.get(first).getId());
+        ArrayList<Integer> firstReceivers = getNewReceivers(first, this.nodeList, tag, this.rmax);
+        int firstSize = firstReceivers.size();
 
-        findTwoAndProcess(first, firstReceivers, tag, hops);
-        findTwoAndProcess(second, firstReceivers, tag, hops);
+        if (firstSize > 0) {
+            markNewReceivers(firstReceivers, tag);
+            int second = chooseGreedyBest(oriIndex, receivers, tag);
+            System.out.println("#2: " + this.nodeList.get(second).getId());
+            ArrayList<Integer> secondReceivers = getNewReceivers(second, this.nodeList, tag, this.rmax);
+            int secondSize = secondReceivers.size();
+            if (secondSize > 0) {
+                markNewReceivers(secondReceivers, tag);
+            }
+            findTwoAndProcess(first, firstReceivers, tag, hops);
+            if(secondSize > 0) {
+                findTwoAndProcess(second, firstReceivers, tag, hops);
+            }
+        }
     }
 
     // for each tag each time choose one best next; messages are sent together at time stamp 0;
@@ -102,56 +105,52 @@ public class RmaxGreedy {
             sigSet.add(generator.generate(5));
         }
         ArrayList<String> signals = new ArrayList(sigSet);
-
-
     }
 
-    public Node[] chooseGreedyBest(Node thisNode, ArrayList<Node> receiverPool, String tag) {
-        int maxReceiver = -1, secondReceiver = -1;
-        int index1 = -1, index2 = -1;
-        ArrayList<Node> temp = new ArrayList<>();
+    public int chooseGreedyBest(int oriIndex, ArrayList<Integer> receiverPool, String tag) {
+        int maxReceivers = -1;
+        int index = -1;
+        ArrayList<Integer> temp;
         for (int i = 0; i < receiverPool.size(); i++) {
-            Node candidate = receiverPool.get(i);
-            temp = getNewReceivers(candidate, this.nodeList.getList(), tag, this.rmax);
-            // System.out.println("test, #rec: " + temp.size());
+            temp = getNewReceivers(receiverPool.get(i), this.nodeList, tag, this.rmax);
             int tempSize = temp.size();
-            if (tempSize > maxReceiver) {
-                index2 = index1;
-                index1 = i;
-                secondReceiver = maxReceiver;
-                maxReceiver = tempSize;
-            } else if (tempSize > secondReceiver) {
-                secondReceiver = tempSize;
-                index2 = i;
+            if (tempSize > maxReceivers) {
+                index = i;
+                maxReceivers = tempSize;
             }
-
         }
-        Node[] nodes = {receiverPool.get(index1), receiverPool.get(index2)};
-        return nodes;
+        //System.out.println("can reach: " + maxReceivers);
+        return receiverPool.get(index);
     }
 
     // Trim original list to get only a list of new receivers, not decided (hence marked yet)
-    public ArrayList<Node> getNewReceivers(Node thisNode, ArrayList<Node> nodeList, String tag, double r) {
-        ArrayList<Node> receivers = thisNode.nodesInRange(nodeList, r);
+    public ArrayList<Integer> getNewReceivers(int index, ArrayList<Node> nodeList, String tag, double r) {
+        ArrayList<Integer> temp = this.nodeList.get(index).nodesInRange(nodeList, r);
+        ArrayList<Integer> receivers = new ArrayList<>();
         int i = 0;
-        while(i < receivers.size()) {
-            if (receivers.get(i).isKnown(tag)) {
-                receivers.remove(i);
+        while(i < temp.size()) {
+            if (index != temp.get(i) && !this.nodeList.get(temp.get(i)).isKnown(tag)) {
+                receivers.add(temp.get(i));
             }
             i++;
         }
+        System.out.println("for node " + this.nodeList.get(index).getId() + " the number of new receivers: " + receivers.size());
+        for (int j = 0; j < receivers.size(); j++) {
+            int thisIndex = receivers.get(j);
+            System.out.print(this.nodeList.get(receivers.get(j)).getId() + " ");
+        }
+        System.out.println();
+
         return receivers;
     }
 
-    // after the decision, mark the receivers
-    public void markNewReceivers(ArrayList<Node> receivers, String tag) {
-        int cnt = 0;
+    // after the decision, mark the receiversLis
+    public void markNewReceivers(ArrayList<Integer> receivers, String tag) {
+        int cnt = receivers.size();
         for (int i = 0; i < receivers.size(); i++) {
-            if (!receivers.get(i).isKnown(tag)) {
-                receivers.get(i).addTag(tag);
-                cnt++;
-            }
+            this.nodeList.get(receivers.get(i)).addTag(tag);
         }
+        System.out.println("Mark new: " + cnt);
         int prevCnt = tagCounter.get(tag);
         int newCnt = prevCnt + cnt;
         tagCounter.put(tag, newCnt);

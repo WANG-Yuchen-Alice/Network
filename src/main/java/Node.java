@@ -9,10 +9,12 @@ public class Node {
     public int j;
     public String message;
     public HashSet<String> tags;
+    public int id;
 
-    public Node(int i, int j) {
+    public Node(int i, int j, int id) {
         this.i = i;
         this.j = j;
+        this.id = id;
         this.message = "";
         this.tags = new HashSet<>();
     }
@@ -30,6 +32,10 @@ public class Node {
 
     public int getJ() {
         return j;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setMessage(String message) {
@@ -63,11 +69,12 @@ public class Node {
     }
 
     // Returns nodes within in the range r (including old receivers; no repetition)
-    public ArrayList<Node> nodesInRange(ArrayList<Node> nodeList, double r) {
-        ArrayList<Node> resList = new ArrayList<Node>();
+    // contains the indices
+    public ArrayList<Integer> nodesInRange(ArrayList<Node> nodeList, double r) {
+        ArrayList<Integer> resList = new ArrayList<>();
         for (int i = 0; i < nodeList.size(); i++) {
-            if (this.distanceTo(nodeList.get(i)) <= r) {
-                resList.add(nodeList.get(i));
+            if (this.getId() != nodeList.get(i).getId() && this.distanceTo(nodeList.get(i)) <= r) {
+                resList.add(i);
             }
         }
         return resList;
