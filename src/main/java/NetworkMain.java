@@ -4,7 +4,7 @@ import main.java.logic.RmaxGreedy;
 
 public class NetworkMain {
 
-    public static final int N = 50;
+    public static final int N = 60;
 
     public static void main(String[] args) {
         NodeList nodeList = new NodeList(N);

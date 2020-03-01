@@ -27,7 +27,7 @@ public class RmaxGreedy {
         this.N = nodeList.getSize();
         this.nodeList = nodeList;
         this.positionGraph = positionGraph;
-        this.rmax = Math.sqrt(N);
+        this.rmax = 2 * Math.sqrt(N);
         tagCounter = new HashMap<>();
         this.maxHop = (int)Math.sqrt(N);
     }
@@ -72,6 +72,9 @@ public class RmaxGreedy {
             return;
         }
         hops++;
+        if (receivers.size() < 2) {
+            return;
+        }
         Node[] bestTwo = chooseGreedyBest(thisNode, receivers, tag);
         Node first = bestTwo[0];
         Node second = bestTwo[1];
@@ -104,7 +107,6 @@ public class RmaxGreedy {
     }
 
     public Node[] chooseGreedyBest(Node thisNode, ArrayList<Node> receiverPool, String tag) {
-        //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx -1 might not be updated
         int maxReceiver = -1, secondReceiver = -1;
         int index1 = -1, index2 = -1;
         ArrayList<Node> temp = new ArrayList<>();

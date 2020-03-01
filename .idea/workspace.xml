@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,30 +151,30 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1582948786474" />
-    <state x="296" y="0" key="CommitChangelistDialog2" timestamp="1583058755253">
+    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1583066100447">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="296" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583058755253" />
+    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1583066100447" />
     <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1583048469556">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1583048469556" />
-    <state width="1237" height="505" key="GridCell.Tab.0.bottom" timestamp="1583058771472">
+    <state width="1237" height="522" key="GridCell.Tab.0.bottom" timestamp="1583065988940">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="505" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
-    <state width="1237" height="505" key="GridCell.Tab.0.center" timestamp="1583058771472">
+    <state width="1237" height="522" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1583065988940" />
+    <state width="1237" height="522" key="GridCell.Tab.0.center" timestamp="1583065988940">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="505" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
-    <state width="1237" height="505" key="GridCell.Tab.0.left" timestamp="1583058771472">
+    <state width="1237" height="522" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1583065988940" />
+    <state width="1237" height="522" key="GridCell.Tab.0.left" timestamp="1583065988940">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="505" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
-    <state width="1237" height="505" key="GridCell.Tab.0.right" timestamp="1583058771472">
+    <state width="1237" height="522" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1583065988940" />
+    <state width="1237" height="522" key="GridCell.Tab.0.right" timestamp="1583065988940">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="505" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1583058771472" />
+    <state width="1237" height="522" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1583065988940" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
