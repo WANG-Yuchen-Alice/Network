@@ -18,19 +18,33 @@ public class RmaxGreedy {
     public int L;
     public ArrayList<Node> nodeList;
     public double rmax;
+    public ArrayList<String> signals;
     public HashMap<String, Integer> tagCounter;
     public HashMap<String, ArrayList<Integer>> receiverMap;
     public HashMap<String, HashSet<Integer>> receiverSetMap;
+    public HashMap<String, Boolean> tagDone;
     public int maxHop;
 
     public RmaxGreedy(ArrayList<Node> nodeList, int L) {
         this.N = nodeList.size();
         this.nodeList = nodeList;
         this.rmax = 2*Math.sqrt(L);
+        signals = new ArrayList<>();
         tagCounter = new HashMap<>();
         receiverMap = new HashMap<>();
         receiverSetMap = new HashMap<>();
+        tagDone = new HashMap<>();
         this.maxHop = 10 * (int)Math.sqrt(L); //average
+    }
+
+    public void setSignals(ArrayList<String> signals) {
+        this.signals.clear();
+        this.tagCounter.clear();
+        for (int i = 0; i < signals.size(); i++) {
+            this.signals.add(signals.get(i));
+            this.tagCounter.put(signals.get(i), 0);
+            this.tagDone.put(signals.get(i), false);
+        }
     }
 
     // WARNING: choose between single and multiple
@@ -59,7 +73,7 @@ public class RmaxGreedy {
 
         findNextAndProcess(startIndex, tag, hops);
 
-        System.out.println("Done. " + " receivers: " + tagCounter.get(tag));
+        System.out.println("Done. " + " receivers: " + tagCounter.get(tag) + "\n hops: " + hops);
 
     }
 
@@ -93,42 +107,47 @@ public class RmaxGreedy {
         addReceiversToMap(firstReceivers, tag);
 
         findNextAndProcess(first, tag, hops);
-        /*if (firstSize > 0) {
-            markNewReceivers(firstReceivers, tag);
-            addReceiversToMap(firstReceivers, tag);
-            int second = chooseGreedyBest(oriIndex, tag);
-            if (second == -1) {
-                return;
-            }
-            System.out.println("#2: " + this.nodeList.get(second).getId());
-            ArrayList<Integer> secondReceivers = getNewReceivers(second, this.nodeList, tag, this.rmax);
-            int secondSize = secondReceivers.size();
-            if (secondSize > 0) {
-                markNewReceivers(secondReceivers, tag);
-                addReceiversToMap(firstReceivers, tag);
-            }
-            findTwoAndProcess(first, tag, hops);
-            if(secondSize > 0) {
-                findTwoAndProcess(second, tag, hops);
-            }
-        }*/
     }
 
     // for each tag each time choose one best next; messages are sent together at time stamp 0;
     // each node can only be sender / receiver
-    public void runMultiple(int k) {
+    public void runMultiple() {
         System.out.println("RmaxGreedy_multiple is running");
+        System.out.println("max hops: " + this.maxHop);
+        int goal = (int)(0.9*this.N);
+        System.out.println("goal: " + goal);
 
-        HashSet<String> sigSet = new HashSet<>();
-        ArrayList<Node> senders = new ArrayList<>();
-        SignalGenerator generator = new SignalGenerator();
+
+        HashSet<Integer> oriSenders = new HashSet<>();
+        int num = this.signals.size();
         Random random = new Random();
 
-        //generate a lits of  signals and original senders
-        while(sigSet.size() < this.N) {
-            sigSet.add(generator.generate(5));
+        // prepare the original senders
+        for(int i = 0; i < num; i++) {
+            String thisTag = signals.get(i);
+            int thisIndex = random.nextInt(N);
+            while(oriSenders.contains(thisIndex)) {
+                thisIndex = random.nextInt(N);
+            }
+            oriSenders.add(thisIndex);
+            receiverMap.get(thisTag).add(thisIndex);
+            receiverSetMap.get(thisTag).add(thisIndex);
+            tagCounter.put(thisTag, (tagCounter.get(thisTag) + 1));
+            this.nodeList.get(thisIndex).addTag(thisTag);
         }
-        ArrayList<String> signals = new ArrayList(sigSet);
+
+        for(int i = 0; i < num; i++) {
+            String thisTag = signals.get(i);
+            if (tagCounter.get(thisTag) >= goal) {
+
+            }
+
+        }
+
+
+
+
+
     }
 
     public int chooseGreedyBest(int oriIndex, String tag) {
