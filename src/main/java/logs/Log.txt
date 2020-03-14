@@ -1,0 +1,15 @@
+RmaxGreedy - single
+N = 100; L = 80;
+rmax = N/5;
+hops = 2*(int)Mathsqrt(N);
+goal = 90%
+[T]
+
+rmax = Math.sqrt(N);
+hops = 10*(int)Mathsqrt(N);
+
+rmax = 2*Math.sqrt(L);
+hops = 10*(int)Mathsqrt(L);
+
+RmaxGreedy - multiple
+

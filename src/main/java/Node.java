@@ -2,6 +2,7 @@ package main.java;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Node {
 
@@ -80,6 +81,20 @@ public class Node {
         return resList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return i == node.i &&
+                j == node.j &&
+                id == node.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(i, j, message, tags, id);
+    }
 
     public String toString() {
         return "[" + this.i + ", " + this.j + "]";
