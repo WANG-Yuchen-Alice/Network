@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logs/Log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Log.txt" afterDir="false" />
@@ -155,7 +156,8 @@
     <MESSAGE value="RmaxGreedy: Select from all receivers." />
     <MESSAGE value="RmaxGreedy - multiple 0.1" />
     <MESSAGE value="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal" />
-    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal" />
+    <MESSAGE value="RmaxGreedy - multiple 0.2&#10;Randomizely take senders with possibility, each round choose one new sender for the signal." />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.2&#10;Randomizely take senders with possibility, each round choose one new sender for the signal." />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -174,10 +176,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1582948786474" />
-    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1584249131873">
+    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1584261154015">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1584249131873" />
+    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1584261154015" />
     <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1584241991584">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

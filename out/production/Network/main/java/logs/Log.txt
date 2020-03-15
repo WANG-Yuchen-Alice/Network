@@ -12,4 +12,7 @@ rmax = 2*Math.sqrt(L);
 hops = 10*(int)Mathsqrt(L);
 
 RmaxGreedy - multiple
+probability p = d2 / sum(d2)
+for each signal each time choose 1 sender
+each node decides for one sender and tag by distance
 
