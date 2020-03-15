@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="RmaxGreedy: Select from all receivers.">
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +35,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS2103" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -116,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584169770719</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="RmaxGreedy - multiple 0.1">
+      <created>1584180760775</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1584180760775</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -139,7 +145,8 @@
     <MESSAGE value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick the best next node - works" />
     <MESSAGE value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick two best next nodes with recursion- works for N = 10" />
     <MESSAGE value="RmaxGreedy: Select from all receivers." />
-    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy: Select from all receivers." />
+    <MESSAGE value="RmaxGreedy - multiple 0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -162,26 +169,26 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1584180758898" />
-    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1583048469556">
+    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1584241991584">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1583048469556" />
-    <state width="1237" height="27" key="GridCell.Tab.0.bottom" timestamp="1584170154845">
+    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1584241991584" />
+    <state width="1237" height="394" key="GridCell.Tab.0.bottom" timestamp="1584248709615">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="27" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584170154845" />
-    <state width="1237" height="27" key="GridCell.Tab.0.center" timestamp="1584170154845">
+    <state width="1237" height="394" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
+    <state width="1237" height="394" key="GridCell.Tab.0.center" timestamp="1584248709615">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="27" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584170154845" />
-    <state width="1237" height="27" key="GridCell.Tab.0.left" timestamp="1584170154845">
+    <state width="1237" height="394" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
+    <state width="1237" height="394" key="GridCell.Tab.0.left" timestamp="1584248709615">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="27" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584170154845" />
-    <state width="1237" height="27" key="GridCell.Tab.0.right" timestamp="1584170154845">
+    <state width="1237" height="394" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
+    <state width="1237" height="394" key="GridCell.Tab.0.right" timestamp="1584248709615">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="27" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584170154845" />
+    <state width="1237" height="394" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -194,9 +201,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="28" y="0" key="new project wizard/0.0.1280.680@0.0.1280.680" timestamp="1583048484466" />
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1584177698259">
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1584247156633">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1584177698259" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1584247156633" />
   </component>
 </project>

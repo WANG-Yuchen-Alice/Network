@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -11,6 +12,10 @@ public class Node {
     public String message;
     public HashSet<String> tags;
     public int id;
+    public ArrayList<Integer> competitors;
+    public HashMap<Integer, String> tagMap;
+    public HashMap<Integer, Double> pMap;
+    public double distance2Sum;
 
     public Node(int i, int j, int id) {
         this.i = i;
@@ -18,13 +23,10 @@ public class Node {
         this.id = id;
         this.message = "";
         this.tags = new HashSet<>();
-    }
-
-    public Node(int i, int j, String message) {
-        this.i = i;
-        this.j = j;
-        this.message = message;
-        this.tags = new HashSet<>();
+        this.competitors = new ArrayList<>();
+        this.tagMap = new HashMap<>();
+        this.pMap = new HashMap<>();
+        this.distance2Sum = 0.0;
     }
 
     public int getI() {
@@ -39,10 +41,6 @@ public class Node {
         return id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public void addTag(String newTag) {
         this.tags.add(newTag);
     }
@@ -55,20 +53,6 @@ public class Node {
         return Math.sqrt(Math.pow((this.i - ano.getI()), 2) + Math.pow(this.j - ano.getJ(), 2));
     }
 
-    // Returns the farest node from the receiver list
-    public Node getFarest(ArrayList<Node> nodeList) {
-        double max = this.distanceTo(nodeList.get(0));
-        int mark = 0;
-        for (int i = 1; i < nodeList.size(); i++) {
-            double thisDistance = this.distanceTo(nodeList.get(i));
-            if (thisDistance > max) {
-                max = thisDistance;
-                mark = i;
-            }
-        }
-        return nodeList.get(mark);
-    }
-
     // Returns nodes within in the range r (including old receivers; no repetition)
     // contains the indices
     public ArrayList<Integer> nodesInRange(ArrayList<Node> nodeList, double r) {
@@ -79,6 +63,40 @@ public class Node {
             }
         }
         return resList;
+    }
+
+    public void addCompetitor(int id, String tag, Node sender) {
+        this.competitors.add(id);
+        this.tagMap.put(id, tag);
+        double dis2 = Math.pow(distanceTo(sender), 2);
+        this.pMap.put(id, dis2);
+        this.distance2Sum += dis2;
+    }
+
+    public void clearCompetitor() {
+        this.competitors.clear();
+        this.tagMap.clear();
+        this.pMap.clear();
+        this.distance2Sum = 0.0;
+    }
+
+    public int chooseSender() {
+        int res = -1;
+        double bestP = 0.0;
+        for (int i = 0; i < this.competitors.size(); i++) {
+            double thisP = this.pMap.get(this.competitors.get(i)) / this.distance2Sum; //(0,1)
+            if (i == 0 || thisP > bestP) {
+                res = this.competitors.get(i);
+                bestP = thisP;
+            }
+        }
+        return res;
+    }
+
+    public String chooseTag() {
+        String chosenTag =  this.tagMap.get(chooseSender());
+        addTag(chosenTag);
+        return chosenTag;
     }
 
     @Override
