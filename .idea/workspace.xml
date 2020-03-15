@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logs/Log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +36,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS2103" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -122,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584180760775</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal">
+      <created>1584249134019</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1584249134019</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -146,7 +154,8 @@
     <MESSAGE value="RmaxGreedy_v0.2_calculate all the candidates' receivers and pick two best next nodes with recursion- works for N = 10" />
     <MESSAGE value="RmaxGreedy: Select from all receivers." />
     <MESSAGE value="RmaxGreedy - multiple 0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.1" />
+    <MESSAGE value="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal" />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -173,22 +182,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1584241991584" />
-    <state width="1237" height="394" key="GridCell.Tab.0.bottom" timestamp="1584248709615">
+    <state width="1237" height="408" key="GridCell.Tab.0.bottom" timestamp="1584260585490">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="394" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
-    <state width="1237" height="394" key="GridCell.Tab.0.center" timestamp="1584248709615">
+    <state width="1237" height="408" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584260585490" />
+    <state width="1237" height="408" key="GridCell.Tab.0.center" timestamp="1584260585490">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="394" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
-    <state width="1237" height="394" key="GridCell.Tab.0.left" timestamp="1584248709615">
+    <state width="1237" height="408" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584260585490" />
+    <state width="1237" height="408" key="GridCell.Tab.0.left" timestamp="1584260585490">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="394" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
-    <state width="1237" height="394" key="GridCell.Tab.0.right" timestamp="1584248709615">
+    <state width="1237" height="408" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584260585490" />
+    <state width="1237" height="408" key="GridCell.Tab.0.right" timestamp="1584260585490">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="394" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584248709615" />
+    <state width="1237" height="408" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584260585490" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

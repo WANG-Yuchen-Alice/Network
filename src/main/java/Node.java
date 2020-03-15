@@ -1,9 +1,6 @@
 package main.java;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class Node {
 
@@ -68,7 +65,7 @@ public class Node {
     public void addCompetitor(int id, String tag, Node sender) {
         this.competitors.add(id);
         this.tagMap.put(id, tag);
-        double dis2 = Math.pow(distanceTo(sender), 2);
+        double dis2 = 1 / Math.pow(distanceTo(sender), 2);
         this.pMap.put(id, dis2);
         this.distance2Sum += dis2;
     }
@@ -93,8 +90,31 @@ public class Node {
         return res;
     }
 
+    public int chooseSenderByP() {
+        double accumulateP = 0.0;
+        ArrayList<Double> ctMap = new ArrayList<>();
+        for (int i = 0; i < competitors.size(); i++) {
+            ctMap.add(accumulateP);
+            accumulateP += this.pMap.get(this.competitors.get(i)) / this.distance2Sum;
+        } //in [thisctMap value, nextctMap value) --> this sender
+        Random random = new Random();
+        double mark = random.nextDouble();
+        for (int i = 1; i < competitors.size(); i++) {
+            if (ctMap.get(i) >= mark) {
+                return this.competitors.get(i-1);
+            }
+        }
+        return this.competitors.get(this.competitors.size() - 1);
+    }
+
     public String chooseTag() {
         String chosenTag =  this.tagMap.get(chooseSender());
+        addTag(chosenTag);
+        return chosenTag;
+    }
+
+    public String chooseTagByP() {
+        String chosenTag =  this.tagMap.get(chooseSenderByP());
         addTag(chosenTag);
         return chosenTag;
     }

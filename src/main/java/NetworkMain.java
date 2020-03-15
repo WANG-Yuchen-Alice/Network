@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class NetworkMain {
 
-    public static int N = 100;//#nodes
-    public static int L = 80; //#length
+    public static int N = 10;//#nodes
+    public static int L = 20; //#length
     public static int K = 3;//#signals
 
     public static void main(String[] args) {

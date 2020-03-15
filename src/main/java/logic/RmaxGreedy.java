@@ -116,7 +116,7 @@ public class RmaxGreedy {
     public void runMultiple() {
         System.out.println("RmaxGreedy_multiple is running");
         System.out.println("max hops: " + this.maxHop);
-        int goal = (int)(0.9*this.N);
+        int goal = (int)(0.95*this.N);
         System.out.println("goal: " + goal);
 
         HashSet<Integer> oriSenders = new HashSet<>();
@@ -167,7 +167,7 @@ public class RmaxGreedy {
                 continue;
             }
             //if done for this tag, mark as true and proceed to the next tag
-            if (tagCounter.get(thisTag) >= goal) {
+            if (receiverSetMap.get(thisTag).size() >= goal) {
                 tagDone.put(thisTag, true);
                 this.doneTags++;
                 continue;
@@ -260,7 +260,7 @@ public class RmaxGreedy {
     public void processReceiverPool(ArrayList<Integer> receiverPool) {
          for (int i = 0; i < receiverPool.size(); i++) {
              int thisNode = receiverPool.get(i); //this receiver
-             String tag = this.nodeList.get(thisNode).chooseTag();
+             String tag = this.nodeList.get(thisNode).chooseTagByP();
              this.nodeList.get(thisNode).clearCompetitor();
              this.receiverMap.get(tag).add(thisNode); //add this receiver to the corresponding receiverMap under this tag
              if (!this.receiverSetMap.get(tag).contains(thisNode)) {
