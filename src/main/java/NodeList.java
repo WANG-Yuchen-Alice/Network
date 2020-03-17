@@ -63,4 +63,13 @@ public class NodeList {
         }
         return new PositionGraph(positionGraph);
     }
+
+    //show the densitty of the graph
+    public int averageNeighbors(double r) {
+        int sum = 0;
+        for (int i = 0; i < N; i++) {
+            sum += this.nodeList.get(i).numNodesInRange(this.nodeList, r);
+        }
+        return sum / N;
+    }
 }

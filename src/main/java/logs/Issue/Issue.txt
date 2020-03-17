@@ -1,0 +1,3 @@
+- modify a graph based on a fixed density?
+- how to evaluate performance (density? signals? power?)
+- rmax multiple vs rmax multiple full

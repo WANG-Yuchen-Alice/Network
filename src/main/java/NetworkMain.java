@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class NetworkMain {
 
-    public static int N = 10;//#nodes
-    public static int L = 20; //#length
+    public static int N = 50;//#nodes
+    public static int L = 100; //#length
     public static int K = 3;//#signals
 
     public static void main(String[] args) {
@@ -17,10 +17,14 @@ public class NetworkMain {
         positionGraph.displayPositionGraph();
         ArrayList<String> signals = new ArrayList<>();
         generateSignals(signals, K);
+
         RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L);
+        System.out.println("density: " + nodeList.averageNeighbors(rmaxGreedy.rmax));
         rmaxGreedy.setSignals(signals);
+        System.out.println("signal set");
         //rmaxGreedy.runSingle();
         rmaxGreedy.runMultiple();
+        //rmaxGreedy.runMultipleFullSender();
     }
 
     public static void generateSignals(ArrayList<String> signals, int K) {

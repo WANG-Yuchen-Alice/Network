@@ -15,4 +15,22 @@ RmaxGreedy - multiple
 probability p = d2 / sum(d2)
 for each signal each time choose 1 sender
 each node decides for one sender and tag by distance
+Termination: no new receivers; reach the goal; exceed max hops
+
+density: average neighbors per node
+density: > 5 90%
+density = 3 60-80% 10-30% (K = 10)
+density: 2 < 10%
+
+RnaxGreedy - multiple_full
+density = 4 <50% (K = 10)
+density = 2 <10% (K = 10)
+density > 10 90% (K = 10)
+
+
+
+
+
+
+
 

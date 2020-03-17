@@ -18,10 +18,10 @@ public class RmaxGreedy {
     public ArrayList<Node> nodeList;
     public double rmax;
     public ArrayList<String> signals;
-    public HashMap<String, Integer> tagCounter;
-    public HashMap<String, ArrayList<Integer>> receiverMap;
-    public HashMap<String, HashSet<Integer>> receiverSetMap;
-    public HashMap<String, Boolean> tagDone;
+    public HashMap<String, Integer> tagCounter; //tag - #receivers
+    public HashMap<String, ArrayList<Integer>> receiverMap; //tag - its carrier
+    public HashMap<String, HashSet<Integer>> receiverSetMap; //tag - its carrier in set
+    public HashMap<String, Boolean> tagDone; //tag - whether it is done
     public int maxHop;
     public int doneTags;
 
@@ -30,6 +30,7 @@ public class RmaxGreedy {
         this.L = L;
         this.nodeList = nodeList;
         this.rmax = 2*Math.sqrt(L);
+
         signals = new ArrayList<>();
         tagCounter = new HashMap<>();
         receiverMap = new HashMap<>();
@@ -37,6 +38,13 @@ public class RmaxGreedy {
         tagDone = new HashMap<>();
         this.maxHop = 2 * (int)Math.sqrt(L); //average
         this.doneTags = 0;
+    }
+
+    public void initStorage() {
+        this.tagCounter.clear();
+        this.receiverMap.clear();
+        this.receiverSetMap.clear();
+        this.tagDone.clear();
     }
 
     public void setSignals(ArrayList<String> signals) {
@@ -114,6 +122,7 @@ public class RmaxGreedy {
     // for each tag each time choose one best next; messages are sent together at time stamp 0;
     // each node can only be sender / receiver
     public void runMultiple() {
+        this.initStorage();
         System.out.println("RmaxGreedy_multiple is running");
         System.out.println("max hops: " + this.maxHop);
         int goal = (int)(0.95*this.N);
@@ -135,11 +144,49 @@ public class RmaxGreedy {
             oriSenders.add(thisIndex);
             receiverMap.get(thisTag).add(thisIndex);
             receiverSetMap.get(thisTag).add(thisIndex);
-            tagCounter.put(thisTag, (tagCounter.get(thisTag) + 1));
+            tagCounter.put(thisTag, 1);
+            tagDone.put(thisTag, false);
             this.nodeList.get(thisIndex).addTag(thisTag); //all original senders "has known" the corresponding tag
         }
 
         findNextGroupAndProcess(1);
+
+        System.out.println("Done. ");
+        reportTagCounter();
+
+    }
+
+    // for each tag each time everyone send next round; messages are sent together at time stamp 0;
+    // each node can only be sender / receiver
+    public void runMultipleFullSender() {
+        this.initStorage();
+        System.out.println("RmaxGreedy_multiple_fullSender is running");
+        System.out.println("max hops: " + this.maxHop);
+        int goal = (int)(0.95*this.N);
+        System.out.println("goal: " + goal);
+
+        HashSet<Integer> oriSenders = new HashSet<>();
+        int num = this.signals.size();
+        Random random = new Random();
+
+        // prepare the original senders
+        for(int i = 0; i < num; i++) {
+            String thisTag = signals.get(i);
+            receiverMap.put(thisTag, new ArrayList<Integer>());
+            receiverSetMap.put(thisTag, new HashSet<Integer>());
+            int thisIndex = random.nextInt(N);
+            while(oriSenders.contains(thisIndex)) {
+                thisIndex = random.nextInt(N);
+            }
+            oriSenders.add(thisIndex);
+            receiverMap.get(thisTag).add(thisIndex);
+            receiverSetMap.get(thisTag).add(thisIndex);
+            tagCounter.put(thisTag, 1);
+            tagDone.put(thisTag, false);
+            this.nodeList.get(thisIndex).addTag(thisTag); //all original senders "has known" the corresponding tag
+        }
+
+        findNextGroupAndProcess_full(1);
 
         System.out.println("Done. ");
         reportTagCounter();
@@ -196,6 +243,58 @@ public class RmaxGreedy {
         findNextGroupAndProcess(hops);
     }
 
+    /**
+     * Multiple senders. In each round every one sends. Receivers decide by possibility.
+     * @param hops #hops for the current round (starts from 1)
+     */
+    public void findNextGroupAndProcess_full(int hops) {
+
+
+        if (hops > this.maxHop) {
+            System.out.println("exceed max hops.");
+            return;
+        }
+
+        int num = this.signals.size(); //# signals
+        if (this.doneTags >= num) {
+            System.out.println("all tags are done.");
+            return;
+        }
+        int goal = (int) (0.9 * this.N);
+        //receiverPool and receiverSer are for this round only
+        ArrayList<Integer> receiverPool = new ArrayList<>();
+        HashSet<Integer> receiverSet = new HashSet<>();
+        for (int i = 0; i < num; i++) {
+            String thisTag = signals.get(i);
+            //if marked done before, continue
+            if (this.tagDone.get(thisTag)) {
+                continue;
+            }
+            //if done for this tag, mark as true and proceed to the next tag
+            if (receiverSetMap.get(thisTag).size() >= goal) {
+                tagDone.put(thisTag, true);
+                this.doneTags++;
+                continue;
+            }
+            //if not done yet, all available receivers in the queue send
+            // store the list of list of new receivers into the temp arrayList and add the sender-tag pair into the
+            //competitor list of the receiving node
+            //After all tags are processed, decide for the receivers for each tag
+            for (int k = 0; k < this.receiverMap.get(thisTag).size(); k++) {
+                int thisSender = this.receiverMap.get(thisTag).get(k);
+                ArrayList<Integer> tempNewReceiver = getNewReceivers(thisSender, this.nodeList, thisTag, this.rmax);
+                addToPoolAndCompetitor(receiverPool, receiverSet, tempNewReceiver, thisSender, thisTag);
+            }
+        }
+        //go through the receiverPool and decide for the signal for each pending receivers
+        //each receiver confirms will choose one sender and take his signal
+        //update tagCounter, receieverMap, receiverSetMap as well
+        processReceiverPool(receiverPool);
+        hops++;
+        System.out.println("next hop: " + hops);
+        findNextGroupAndProcess_full(hops);
+    }
+
     public int chooseGreedyBest(String tag) {
         int maxReceivers = -1;
         int index = -1;
@@ -226,12 +325,11 @@ public class RmaxGreedy {
             }
             i++;
         }
-        System.out.println("for node " + this.nodeList.get(index).getId() + " the number of new receivers: " + receivers.size());
-        for (int j = 0; j < receivers.size(); j++) {
+        //System.out.println("for node " + this.nodeList.get(index).getId() + " the number of new receivers: " + receivers.size());
+       /* for (int j = 0; j < receivers.size(); j++) {
             System.out.print(this.nodeList.get(receivers.get(j)).getId() + " ");
         }
-        System.out.println();
-
+        System.out.println();*/
         return receivers;
     }
 
