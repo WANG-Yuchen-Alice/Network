@@ -1,0 +1,23 @@
+Research Topic:
+Improve network information transmission by varying the power of graph nodes.
+
+Research phase:
+1. AY19/20 sem2
+Base line: greedy algorithm with a fixed r
+
+2. summer break
+Variations of r, mobile nodes
+
+3. AY20/21 sem1
+unstable graph with moving nodes
+from centralized network to distributed network
+
+Reference:
+1. differentiate each signal from a network where there are more than 1 sender
+CDMA
+2. stop and wait protocol
+3. randomized chosen r - half improved and half decreased performance
+
+### motivation (application)
+### working process
+### future work
