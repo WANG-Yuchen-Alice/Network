@@ -17,3 +17,7 @@ Reference:
 CDMA
 2. stop and wait protocol
 3. randomized chosen r - half improved and half decreased performance
+
+### motivation (application)
+### working process
+### future work

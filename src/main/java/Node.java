@@ -150,8 +150,10 @@ public class Node {
     }
 
     public String chooseTag() {
-        String chosenTag =  this.tagMap.get(chooseSender());
+        int sender = chooseSender();
+        String chosenTag =  this.tagMap.get(sender);
         addTag(chosenTag);
+        System.out.println(chosenTag + " " + "sender chosen: " + sender);
         return chosenTag;
     }
 

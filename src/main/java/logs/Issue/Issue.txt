@@ -9,7 +9,7 @@ L: small, medium, large (5 10 20)
 H: small, medium, large (7 14 28) = L * Math.sqrt(2)
 H: longest hops of any point pairs (diameter)
 vary N => vary the density(average number of neighbors) H: 2*diameter (more than enough)
-density 3-10 (N*pi = area * (3+1))  //not sure
+density 3-10 (N*pi*r^2 = area * (3+1))  //not sure
 make the graph connected: check, keep adding new ones (until the graph is connected)
 
 threshold : 1/di^2
