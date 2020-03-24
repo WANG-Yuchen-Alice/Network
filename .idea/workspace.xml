@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/StrongSigSends.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" afterDir="false" />
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="RmaxGreedy - multiple_full0.1&#10;ChooseSender: if p smaller than half, ignore the candidate">
+      <change afterPath="$PROJECT_DIR$/src/main/java/logs/Report.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NodeList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NodeList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logs/Log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logs/Log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/NodeList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NodeList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logs/Log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584261156397</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="RmaxGreedy - multiple_full0.1&#10;ChooseSender: if p smaller than half, ignore the candidate">
+      <created>1584422141424</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1584422141424</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,7 +177,8 @@
     <MESSAGE value="RmaxGreedy - multiple 0.1" />
     <MESSAGE value="RmaxGreedy - multiple 0.2&#10;Max possibility, each round one new receiver for each signal" />
     <MESSAGE value="RmaxGreedy - multiple 0.2&#10;Randomizely take senders with possibility, each round choose one new sender for the signal." />
-    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple 0.2&#10;Randomizely take senders with possibility, each round choose one new sender for the signal." />
+    <MESSAGE value="RmaxGreedy - multiple_full0.1&#10;ChooseSender: if p smaller than half, ignore the candidate" />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxGreedy - multiple_full0.1&#10;ChooseSender: if p smaller than half, ignore the candidate" />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -191,30 +197,30 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1582948786474" />
-    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1584422139184">
+    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1584424998478">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1584422139184" />
-    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1584364761726">
+    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1584424998478" />
+    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1584523729760">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1584364761725" />
-    <state width="1237" height="514" key="GridCell.Tab.0.bottom" timestamp="1584422080987">
+    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1584523729760" />
+    <state width="1237" height="2" key="GridCell.Tab.0.bottom" timestamp="1584425784555">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="514" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584422080987" />
-    <state width="1237" height="514" key="GridCell.Tab.0.center" timestamp="1584422080987">
+    <state width="1237" height="2" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1584425784555" />
+    <state width="1237" height="2" key="GridCell.Tab.0.center" timestamp="1584425784555">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="514" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584422080987" />
-    <state width="1237" height="514" key="GridCell.Tab.0.left" timestamp="1584422080987">
+    <state width="1237" height="2" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1584425784555" />
+    <state width="1237" height="2" key="GridCell.Tab.0.left" timestamp="1584425784555">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="514" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584422080987" />
-    <state width="1237" height="514" key="GridCell.Tab.0.right" timestamp="1584422080987">
+    <state width="1237" height="2" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1584425784555" />
+    <state width="1237" height="2" key="GridCell.Tab.0.right" timestamp="1584425784555">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="514" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584422080987" />
+    <state width="1237" height="2" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1584425784555" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -1,3 +1,21 @@
 - modify a graph based on a fixed density?
 - how to evaluate performance (density? signals? power?)
 - rmax multiple vs rmax multiple full
+
+something in between greedy (between one and all)
+make rmax a constant
+fix r, L, N => H, D
+L: small, medium, large (5 10 20)
+H: small, medium, large (7 14 28)
+H: longest hops of any point pairs (diameter)
+vary N => vary the density(average number of neighbors) H: 2*diameter (more than enough)
+density 3-10 (N*pi = area * (3+1))  //not sure
+make the graph connected: check, keep adding new ones (until the graph is connected)
+
+threshold : 1/di^2
+can go through if pi > sum(else)
+criteria: within the range, larger than everyone else
+
+3 size: 7 different N (7 different density) fix r
+
+1 person send (centralized), everyone sends(distributed).

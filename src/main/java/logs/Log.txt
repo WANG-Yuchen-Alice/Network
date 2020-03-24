@@ -27,6 +27,9 @@ density = 4 <50% (K = 10)
 density = 2 <10% (K = 10)
 density > 10 90% (K = 10)
 
+==discard competitor if the p is less than 0.5
+multiple better than multiple_full
+
 
 
 

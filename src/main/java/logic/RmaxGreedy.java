@@ -36,7 +36,7 @@ public class RmaxGreedy {
         receiverMap = new HashMap<>();
         receiverSetMap = new HashMap<>();
         tagDone = new HashMap<>();
-        this.maxHop = 2 * (int)Math.sqrt(L); //average
+        this.maxHop = 2 * L; //average
         this.doneTags = 0;
     }
 
@@ -325,11 +325,11 @@ public class RmaxGreedy {
             }
             i++;
         }
-        //System.out.println("for node " + this.nodeList.get(index).getId() + " the number of new receivers: " + receivers.size());
-       /* for (int j = 0; j < receivers.size(); j++) {
+        System.out.println("for node " + this.nodeList.get(index).getId() + " the number of new receivers: " + receivers.size());
+        for (int j = 0; j < receivers.size(); j++) {
             System.out.print(this.nodeList.get(receivers.get(j)).getId() + " ");
         }
-        System.out.println();*/
+        System.out.println();
         return receivers;
     }
 
@@ -358,8 +358,12 @@ public class RmaxGreedy {
     public void processReceiverPool(ArrayList<Integer> receiverPool) {
          for (int i = 0; i < receiverPool.size(); i++) {
              int thisNode = receiverPool.get(i); //this receiver
+             System.out.println("processing: " + thisNode);
              String tag = this.nodeList.get(thisNode).chooseTagByP();
              this.nodeList.get(thisNode).clearCompetitor();
+             if (tag.equals("")) {
+                 continue;
+             } //this receiver in the pool did not choose any sender due to clashes
              this.receiverMap.get(tag).add(thisNode); //add this receiver to the corresponding receiverMap under this tag
              if (!this.receiverSetMap.get(tag).contains(thisNode)) {
                  this.tagCounter.put(tag, (this.tagCounter.get(tag) + 1));

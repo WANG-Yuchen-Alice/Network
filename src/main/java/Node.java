@@ -101,13 +101,16 @@ public class Node {
     }
 
     public int chooseSenderByP() {
-        /*System.out.println("Among all competitors: ");
+        System.out.println("Among all competitors: ");
         for (int i = 0; i < this.competitors.size(); i++) {
             System.out.print(this.competitors.get(i) + " " );
         }
-        System.out.println();*/
+        System.out.println();
         double accumulateP = 0.0;
         adjustCompetitors();// called after all p are stored
+        if (this.distance2Sum == 0) {
+            return -1;
+        }
         ArrayList<Double> ctMap = new ArrayList<>();
         for (int i = 0; i < competitors.size(); i++) {
             ctMap.add(accumulateP);
@@ -115,30 +118,35 @@ public class Node {
         } //in [thisctMap value, nextctMap value) --> this sender
         Random random = new Random();
         double mark = random.nextDouble();
-        //System.out.println("mark: " + mark);
-        //System.out.println("show ctMap: ");
-        //showctMap(ctMap);
+        System.out.println("mark: " + mark);
+        System.out.println("show ctMap: ");
+        showctMap(ctMap);
         for (int i = 1; i < competitors.size(); i++) {
             if (ctMap.get(i) >= mark) {
-                //System.out.print(this.id + " chooses: " + this.competitors.get(i-1));
-                //System.out.println(this.tagMap.get(this.competitors.get(i-1)));
+                System.out.print(this.id + " chooses: " + this.competitors.get(i-1));
+                System.out.println(this.tagMap.get(this.competitors.get(i-1)));
                 return this.competitors.get(i-1);
             }
         }
-        //System.out.println(this.id + " choose the last one");
+        System.out.println(this.id + " choose the last one");
         return this.competitors.get(this.competitors.size() - 1);
     }
 
     public void adjustCompetitors() {
         double newSum = 0.0;
-        for (int i = 0; i < this.competitors.size(); i++) {
-            int thisCandidate = this.competitors.get(i);
-            if (this.pMap.get(thisCandidate) < this.distance2Sum) {
-                this.pMap.put(thisCandidate, 0.0);
+        ArrayList<Integer> temp = this.competitors;
+        for (int i = 0; i < temp.size(); i++) {
+            int thisCandidate = temp.get(i);
+            if (pMap.containsKey(thisCandidate) && this.pMap.get(thisCandidate) < this.distance2Sum / 2.0) {
+                pMap.remove(thisCandidate);
+                tagMap.remove(thisCandidate);
+                competitors.remove(i);
             }
-            newSum += this.pMap.get(thisCandidate);
+            if (this.pMap.containsKey(thisCandidate)) {
+                newSum += this.pMap.get(thisCandidate);
+            }
         }
-        this.distance2Sum = newSum;
+        this.distance2Sum = newSum; //WARNING: can be zero
     }
 
     public String chooseTag() {
@@ -148,7 +156,11 @@ public class Node {
     }
 
     public String chooseTagByP() {
-        String chosenTag =  this.tagMap.get(chooseSenderByP());
+        int sender = chooseSenderByP();
+        if (sender == -1) {
+            return "";
+        }
+        String chosenTag =  this.tagMap.get(sender);
         addTag(chosenTag);
         return chosenTag;
     }

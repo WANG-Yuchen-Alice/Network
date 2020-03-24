@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class NetworkMain {
 
     public static int N = 50;//#nodes
-    public static int L = 100; //#length
-    public static int K = 3;//#signals
+    public static int L = 20; //#length
+    public static int K = 2;//#signals
 
     public static void main(String[] args) {
         NodeList nodeList = new NodeList(N, L);
