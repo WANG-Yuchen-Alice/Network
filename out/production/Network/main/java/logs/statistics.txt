@@ -1,0 +1,48 @@
+r = 1.5
+========L = 5, H = sqrt(2) * L========
+* density = 1; N = 7 not connected
+* density = 2; N = 10
+rmaxMuliple: 10
+rmaxMultipleFull: 10
+* density = 3; N = 14
+rmaxMultiple: 14
+rmaxMultipleFull: 14 14 14 14 14
+* density = 4; N = 17
+rmaxMultiple: 16 (exceed H) 15(exceed H) 15 (exceed H) 17 16(exceed H)
+H *= 1.5
+17
+rmaxMultipleFull: 17
+* density = 5; N = 21
+rmaxMultiple: 19(exceed) 21 20(exceed) 21 21
+//H *= 1.5
+21
+rmaxMultipleFull: 21
+* density = 6; N = 24
+rmaxMultiple: 24 24 24 23(exceed) 23(exceed) 23(exceed)
+//H *= 1.5
+24
+rmaxMultipleFull: 24
+* density = 7; N = 25 (upper bound)
+rmaxMultiple: 25 24(exceed) 25 25 25
+rmaxMultipleFull: 25
+
+///density = 4 - 7 multipleFull performs better
+
+========L = 10, H = sqrt(2) * L========
+*density = 1; N = 28
+*density = 2; N = 42
+*density = 3; N = 56
+rmaxMultiple:
+rmaxMultipleFull: 56 (density = 3)
+
+*density = 4; N = 70
+rmaxMultipleFull: 70
+
+*density = 5; N = 84
+rmaxMultipleFull: 84
+
+*density = 6; N = 99
+rmaxMultiple: 99
+
+*density = 7; N = 100 (full)
+rmaxMultiple: 100
