@@ -21,3 +21,10 @@ CDMA
 ### motivation (application)
 ### working process
 ### future work
+
+problematic: IoT (networking part)
+communication (CSMA-expensive)(mitigate the interference: synchronous transmission, based on -> generic communication (many to many))
+missing gap: vary the power (power-control further improve the performance)
+so far: build own simulator, implement
+Plan(next 6 months)
+conclusion (what have learnt so far)

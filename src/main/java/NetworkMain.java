@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class NetworkMain {
 
-    public static int density = 3;// average #neighbors
-    public static int L = 3; //#length
+    public static int density = 2;// average #neighbors
+    public static int L = 10; //#length
     public static double A = (1.0) * L * L; // size of the graph
-    public static double r = 1.5; //fixed radius
+    public static double r = 2; //fixed radius
     public static int N; //#nodes
     public static int H = (int)(Math.sqrt(2) * L); //max hops
     public static int K = 2; //#signals
@@ -26,13 +26,13 @@ public class NetworkMain {
         ArrayList<String> signals = new ArrayList<>();
         generateSignals(signals, K);
 
-        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L, r);
+        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L, r, H);
         System.out.println("density: " + nodeList.averageNeighbors(rmaxGreedy.rmax));
         rmaxGreedy.setSignals(signals);
         System.out.println("signal set");
         //rmaxGreedy.runSingle();
-        rmaxGreedy.runMultiple();
-        //rmaxGreedy.runMultipleFullSender();
+        //rmaxGreedy.runMultiple();
+        rmaxGreedy.runMultipleFullSender();
     }
 
     public static int computeN(double A, int L, int density, double r) {

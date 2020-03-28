@@ -55,7 +55,7 @@ public class Node {
     public ArrayList<Integer> nodesInRange(ArrayList<Node> nodeList, double r) {
         ArrayList<Integer> resList = new ArrayList<>();
         for (int i = 0; i < nodeList.size(); i++) {
-            if (this.getId() != i && this.distanceTo(nodeList.get(i)) <= r) {
+            if (this.getId() != nodeList.get(i).getId() && this.distanceTo(nodeList.get(i)) <= r) {
                 resList.add(i);
             }
         }
