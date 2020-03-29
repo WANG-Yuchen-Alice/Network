@@ -97,6 +97,7 @@ public class RmaxFull {
             tagCounter.put(thisTag, 1);
             tagDone.put(thisTag, false);
             this.nodeList.get(thisIndex).addTag(thisTag); //all original senders "has known" the corresponding tag
+            this.nodeList.get(thisIndex).setStatus(1); //make sure the original ones are senders
         }
 
         findNextGroupAndProcess_full(1);
@@ -111,6 +112,7 @@ public class RmaxFull {
      * @param hops #hops for the current round (starts from 1)
      */
     public void findNextGroupAndProcess_full(int hops) {
+        updateCarriedTag();
         if (hops > this.maxHop) {
             System.out.println("exceed max hops.");
             return;
@@ -142,6 +144,12 @@ public class RmaxFull {
             //After all tags are processed, decide for the receivers for each tag
             for (int k = 0; k < this.receiverMap.get(thisTag).size(); k++) {
                 int thisSender = this.receiverMap.get(thisTag).get(k);
+                //this node must be at the SEND(1) status
+                //this node must actually choose this tag to send (this tag is the rarest for this node)
+                if (this.nodeList.get(thisSender).status != 1 || !this.nodeList.get(thisSender).chooseTagToSend(signals, tagCounter).equals(thisTag)) {
+                    continue;
+                }
+                // this node agrees to send this tag, now getNewReceivers for it
                 ArrayList<Integer> tempNewReceiver = getNewReceivers(thisSender, this.nodeList, thisTag, this.rmax);
                 addToPoolAndCompetitor(receiverPool, receiverSet, tempNewReceiver, thisSender, thisTag);
             }
@@ -155,32 +163,14 @@ public class RmaxFull {
         findNextGroupAndProcess_full(hops);
     }
 
-    public int chooseGreedyBest(String tag) {
-        int maxReceivers = -1;
-        int index = -1;
-        ArrayList<Integer> temp;
-        for (int i = 0; i < this.receiverMap.get(tag).size(); i++) {
-            temp = getNewReceivers(this.receiverMap.get(tag).get(i), this.nodeList, tag, this.rmax);
-            int tempSize = temp.size();
-            if (tempSize > maxReceivers) {
-                index = i;
-                maxReceivers = tempSize;
-            }
-        }
-        if (index == -1 || maxReceivers == -1) {
-            return -1;
-        } else {
-            return this.receiverMap.get(tag).get(index);
-        }
-    }
-
     // Trim original list to get only a list of new receivers, not decided (hence marked yet)
     public ArrayList<Integer> getNewReceivers(int index, ArrayList<Node> nodeList, String tag, double r) {
-        ArrayList<Integer> temp = this.nodeList.get(index).nodesInRange(nodeList, r);
+        ArrayList<Integer> temp = this.nodeList.get(index).nodesInRange(nodeList, r); // all non-self nodes within the range
         ArrayList<Integer> receivers = new ArrayList<>();
         int i = 0;
         while(i < temp.size()) {
-            if (index != temp.get(i) && !this.nodeList.get(temp.get(i)).isKnown(tag)) {
+            //if (non-self && new to this tag && in RECEIVE(0) status)
+            if (index != temp.get(i) && !this.nodeList.get(temp.get(i)).isKnown(tag) && this.nodeList.get(temp.get(i)).status == 0) {
                 receivers.add(temp.get(i));
             }
             i++;
@@ -193,25 +183,13 @@ public class RmaxFull {
         return receivers;
     }
 
-    // after the decision, mark the receiversLis
-    public void markNewReceivers(ArrayList<Integer> receivers, String tag) {
-        int cnt = receivers.size();
-        for (int i = 0; i < receivers.size(); i++) {
-            this.nodeList.get(receivers.get(i)).addTag(tag);
-        }
-        System.out.println("Mark new: " + cnt);
-        int prevCnt = tagCounter.get(tag);
-        int newCnt = prevCnt + cnt;
-        tagCounter.put(tag, newCnt);
-    }
-
     public void addToPoolAndCompetitor(ArrayList<Integer> receiverPool, HashSet<Integer> receiverSet, ArrayList<Integer> receivers, int sender, String tag) {
         for (int i = 0; i < receivers.size(); i++) {
-            if (!receiverSet.contains(receivers.get(i))) {
+            if (!receiverSet.contains(receivers.get(i))) {//make sure the receiverPool of this round does not contain duplicate receiver indices
                 receiverSet.add(receivers.get(i));
                 receiverPool.add(receivers.get(i));
             }
-            this.nodeList.get(receivers.get(i)).addCompetitor(sender, tag, this.nodeList.get(sender));
+            this.nodeList.get(receivers.get(i)).addCompetitor(sender, tag, this.nodeList.get(sender));//this receiver must be at status RECEIVE(0)
         }
     }
 
@@ -219,18 +197,36 @@ public class RmaxFull {
         for (int i = 0; i < receiverPool.size(); i++) {
             int thisNode = receiverPool.get(i); //this receiver
             System.out.println("processing: " + thisNode);
-            String tag = this.nodeList.get(thisNode).chooseTag();
-            this.nodeList.get(thisNode).clearCompetitor();
-            if (tag.equals("")) {
+            int chosenSender = this.nodeList.get(thisNode).chooseSender();
+            //if does not choose anyone - still RECEIVE(0), but that sender - SEND(1)
+            if (chosenSender == -1) {
                 System.out.println("no tag chosen");
                 continue;
-            } //this receiver in the pool did not choose any sender due to clashes
+            }
+
+            //else: RECEIVE successfully, next round SEND(1)
+            String tag = this.nodeList.get(thisNode).chooseTag();
+            // set the successfull sender back to RECEIVE(0) only when he is done
+            if (!this.nodeList.get(chosenSender).isDone(this.signals.size())) {
+                this.nodeList.get(chosenSender).setStatus(0);
+            }
+            this.nodeList.get(thisNode).clearCompetitor();
+            this.nodeList.get(thisNode).setStatus(1);
+
             this.receiverMap.get(tag).add(thisNode); //add this receiver to the corresponding receiverMap under this tag
             if (!this.receiverSetMap.get(tag).contains(thisNode)) {
                 this.tagCounter.put(tag, (this.tagCounter.get(tag) + 1));
             }
             this.receiverSetMap.get(tag).add(thisNode);
 
+        }
+    }
+
+    //make sure all nodes now has an updated carried tag (the rarest among their tag pool)
+    //if a node has not tags yet, it carries "".
+    public void updateCarriedTag() {
+        for (int i = 0; i < this.nodeList.size(); i++) {
+            this.nodeList.get(i).updateCarriedTag(this.signals, this.tagCounter);
         }
     }
 

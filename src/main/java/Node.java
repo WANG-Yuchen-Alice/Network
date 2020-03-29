@@ -14,6 +14,7 @@ public class Node {
     public HashMap<Integer, Double> pMap; //store competitor - 1/d^2 pairs
     public double distance2Sum; //store sum (1/d^2)
     public String carriedTag;
+    public int status; //0 RECEIVE, 1 SEND
 
     public Node(int i, int j, int id) {
         this.i = i;
@@ -25,6 +26,7 @@ public class Node {
         this.tagMap = new HashMap<>();
         this.pMap = new HashMap<>();
         this.distance2Sum = 0.0;
+        this.status = 0;//by default, a node is ready to receive
     }
 
     public int getI() {
@@ -39,12 +41,23 @@ public class Node {
         return id;
     }
 
+    public void setStatus(int status) {
+        if (status!= 1 && status != 0) {
+            System.out.println("####wrong status!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+        this.status = status;
+    }
+
     public void addTag(String newTag) {
         this.tags.add(newTag);
     }
 
     public boolean isKnown(String tag) {
         return this.tags.contains(tag);
+    }
+
+    public boolean isDone(int K) {
+        return this.tags.size() == K;
     }
 
     public double distanceTo(Node ano) {
@@ -220,5 +233,14 @@ public class Node {
 
     public String toString() {
         return "[" + this.i + ", " + this.j + "]";
+    }
+
+    /**
+     * The page shown to the user.
+     */
+    public enum Status {
+        SEND,
+        RECEIVE,
+        DONE
     }
 }

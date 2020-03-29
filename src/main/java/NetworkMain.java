@@ -27,13 +27,13 @@ public class NetworkMain {
         ArrayList<String> signals = new ArrayList<>();
         generateSignals(signals, K);
 
-        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L, r, H);
-        System.out.println("density: " + nodeList.averageNeighbors(rmaxGreedy.rmax));
-        rmaxGreedy.setSignals(signals);
+        RmaxFull rmaxFull = new RmaxFull(nodeList.getList(), L, r, H);
+        System.out.println("density: " + nodeList.averageNeighbors(rmaxFull.rmax));
+        rmaxFull.setSignals(signals);
         System.out.println("signal set");
         //rmaxGreedy.runSingle();
         //rmaxGreedy.runMultiple();
-        rmaxGreedy.runMultipleFullSender();
+        rmaxFull.runMultipleFullSender();
     }
 
     public static int computeN(double A, int L, int density, double r) {
