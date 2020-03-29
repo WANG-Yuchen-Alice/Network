@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="" />
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxFull.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logs/Issue/Issue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logs/Issue/Issue.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,7 +43,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS2103" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -241,22 +251,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1585412763679" />
-    <state width="1222" height="514" key="GridCell.Tab.0.bottom" timestamp="1585412764492">
+    <state width="1221" height="485" key="GridCell.Tab.0.bottom" timestamp="1585452135246">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1222" height="514" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1585412764492" />
-    <state width="1222" height="514" key="GridCell.Tab.0.center" timestamp="1585412764492">
+    <state width="1221" height="485" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1585452135246" />
+    <state width="1221" height="485" key="GridCell.Tab.0.center" timestamp="1585452135246">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1222" height="514" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1585412764492" />
-    <state width="1222" height="514" key="GridCell.Tab.0.left" timestamp="1585412764492">
+    <state width="1221" height="485" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1585452135246" />
+    <state width="1221" height="485" key="GridCell.Tab.0.left" timestamp="1585452135246">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1222" height="514" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1585412764492" />
-    <state width="1222" height="514" key="GridCell.Tab.0.right" timestamp="1585412764492">
+    <state width="1221" height="485" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1585452135246" />
+    <state width="1221" height="485" key="GridCell.Tab.0.right" timestamp="1585452135246">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1222" height="514" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1585412764492" />
+    <state width="1221" height="485" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1585452135246" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

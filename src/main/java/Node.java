@@ -7,12 +7,13 @@ public class Node {
     public int i;
     public int j;
     public String message;
-    public HashSet<String> tags;
+    public HashSet<String> tags; //store all the tags known by this node
     public int id;
     public ArrayList<Integer> competitors;
-    public HashMap<Integer, String> tagMap;
-    public HashMap<Integer, Double> pMap;
-    public double distance2Sum;
+    public HashMap<Integer, String> tagMap; //store competitor - tag pairs
+    public HashMap<Integer, Double> pMap; //store competitor - 1/d^2 pairs
+    public double distance2Sum; //store sum (1/d^2)
+    public String carriedTag;
 
     public Node(int i, int j, int id) {
         this.i = i;
@@ -72,6 +73,28 @@ public class Node {
         return num;
     }
 
+    public void updateCarriedTag(ArrayList<String> signals, HashMap<String, Integer> tagCounter) {
+        this.carriedTag = chooseTagToSend(signals, tagCounter);
+    }
+
+    public String chooseTagToSend(ArrayList<String> signals, HashMap<String, Integer> tagCounter) {
+        if (this.tags.size() == 0) {
+            return "";
+        }
+        int min = Integer.MAX_VALUE;
+        String res = "";
+        for (int i = 0; i < signals.size(); i++) {
+            String sig = signals.get(i);
+            if (this.tags.contains(sig)) {
+                if (tagCounter.get(sig) < min) {
+                    min = tagCounter.get(sig);
+                    res = sig;
+                }
+            }
+        }
+        return res;
+    }
+
     public void addCompetitor(int id, String tag, Node sender) {
         this.competitors.add(id);
         this.tagMap.put(id, tag);
@@ -97,7 +120,11 @@ public class Node {
                 bestP = thisP;
             }
         }
-        return res;
+        if (bestP >= 2*(0.1)/3) {
+            return res;
+        } else {
+            return -1;
+        }
     }
 
     public int chooseSenderByP() {
@@ -151,6 +178,9 @@ public class Node {
 
     public String chooseTag() {
         int sender = chooseSender();
+        if (sender < 0) {
+            return "";
+        }
         String chosenTag =  this.tagMap.get(sender);
         addTag(chosenTag);
         System.out.println(chosenTag + " " + "sender chosen: " + sender);

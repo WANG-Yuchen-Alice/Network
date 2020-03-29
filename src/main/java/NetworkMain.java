@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.logic.RmaxFull;
 import main.java.logic.RmaxGreedy;
 import main.java.tool.SignalGenerator;
 
@@ -7,12 +8,12 @@ import java.util.ArrayList;
 
 public class NetworkMain {
 
-    public static int density = 2;// average #neighbors
-    public static int L = 10; //#length
+    public static int density = 3;// average #neighbors
+    public static int L = 5 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes
-    public static int H = (int)(Math.sqrt(2) * L); //max hops
+    public static int H = (int)((Math.sqrt(2) * L) / 2); //max hops
     public static int K = 2; //#signals
 
     public static void main(String[] args) {

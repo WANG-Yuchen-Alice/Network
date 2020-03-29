@@ -18,7 +18,6 @@ criteria: within the range, larger than everyone else
 
 3 size: 7 different N (7 different density) fix r
 
-
 1 person send (centralized), everyone sends(distributed).
 
 2 all go through,
