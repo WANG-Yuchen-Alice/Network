@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxFull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxFull.java" afterDir="false" />
-    </list>
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -195,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585452399414</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="RmaxFull: successful RECEIVE/SEND, alter; failed RECEIVE/SEND, keep; if done, always SEND&#10;Each time carry the least sent tag.">
+      <created>1585456493731</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1585456493731</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,7 +225,8 @@
     <MESSAGE value="Debug: fixed r." />
     <MESSAGE value="Confirmed connected graph." />
     <MESSAGE value="One potential sender can only send for 1 tag in each round." />
-    <option name="LAST_COMMIT_MESSAGE" value="One potential sender can only send for 1 tag in each round." />
+    <MESSAGE value="RmaxFull: successful RECEIVE/SEND, alter; failed RECEIVE/SEND, keep; if done, always SEND&#10;Each time carry the least sent tag." />
+    <option name="LAST_COMMIT_MESSAGE" value="RmaxFull: successful RECEIVE/SEND, alter; failed RECEIVE/SEND, keep; if done, always SEND&#10;Each time carry the least sent tag." />
   </component>
   <component name="WindowStateProjectService">
     <state x="233" y="2" key="#Project_Structure" timestamp="1582948568761">
@@ -249,10 +249,10 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1582948786474" />
-    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1585452397961">
+    <state x="178" y="0" key="CommitChangelistDialog2" timestamp="1585456492541">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1585452397961" />
+    <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1585456492541" />
     <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1585453151399">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
