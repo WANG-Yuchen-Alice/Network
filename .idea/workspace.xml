@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="" />
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/logs/midreport_table.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tool/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/NetworkMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/Node$Status.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/Node$Status.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxFull.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxFull.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/RmaxGreedy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logs/Issue/Issue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logs/Issue/Issue.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NetworkMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NetworkMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxFull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxFull.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/RmaxGreedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Issue/Issue.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,13 +48,26 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS2103" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager" selected="Application.NetworkMain">
+  <component name="RunManager" selected="Application.Counter">
+    <configuration name="Counter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.tool.Counter" />
+      <module name="Network" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.tool.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NetworkMain" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="main.java.NetworkMain" />
       <module name="Network" />
@@ -62,6 +90,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Counter" />
         <item itemvalue="Application.tryMain" />
       </list>
     </recent_temporary>
@@ -253,26 +282,42 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="178" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1585456492541" />
-    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1585453151399">
+    <state x="421" y="50" key="FileChooserDialogImpl" timestamp="1585661573366">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1585453151399" />
-    <state width="1221" height="461" key="GridCell.Tab.0.bottom" timestamp="1585456198768">
+    <state x="421" y="50" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1585661573366" />
+    <state width="1237" height="133" key="GridCell.Tab.0.bottom" timestamp="1586264098266">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1221" height="461" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1585456198768" />
-    <state width="1221" height="461" key="GridCell.Tab.0.center" timestamp="1585456198768">
+    <state width="1237" height="133" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586264098266" />
+    <state width="1237" height="133" key="GridCell.Tab.0.center" timestamp="1586264098266">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1221" height="461" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1585456198768" />
-    <state width="1221" height="461" key="GridCell.Tab.0.left" timestamp="1585456198768">
+    <state width="1237" height="133" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1586264098266" />
+    <state width="1237" height="133" key="GridCell.Tab.0.left" timestamp="1586264098266">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1221" height="461" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1585456198768" />
-    <state width="1221" height="461" key="GridCell.Tab.0.right" timestamp="1585456198768">
+    <state width="1237" height="133" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1586264098266" />
+    <state width="1237" height="133" key="GridCell.Tab.0.right" timestamp="1586264098266">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1221" height="461" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1585456198768" />
+    <state width="1237" height="133" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1586264098266" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1586260772335">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586260772335" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1586260772334">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1586260772334" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1586260772334">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1586260772334" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1586260772335">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1586260772335" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1583048129911">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -29,5 +29,21 @@ once get all tags: always send
 no data: always receive
 in between: alternate
 
+2020-03-31
+literature review: category, analysis, summary
+iistributed? centralized?
+result representation, table?
+
+Quick Feedback:
+
+- you should have a cover page, with title of project and your name.
+
+- Put all section/chapter headings in bold.
+
+- "working progress" should be work in progress.
+
+- add some figures to explain your work
+
+- you should have a short section.paragraph on the objective of the project.
 
 

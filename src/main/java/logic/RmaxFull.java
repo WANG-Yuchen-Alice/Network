@@ -71,7 +71,7 @@ public class RmaxFull {
 
     // for each tag each time everyone send next round; messages are sent together at time stamp 0;
     // each node can only be sender / receiver
-    public void runMultipleFullSender() {
+    public int runMultipleFullSender() {
         this.initStorage();
         System.out.println("RmaxGreedy_multiple_fullSender is running");
         System.out.println("max hops: " + this.maxHop);
@@ -98,12 +98,14 @@ public class RmaxFull {
             tagDone.put(thisTag, false);
             this.nodeList.get(thisIndex).addTag(thisTag); //all original senders "has known" the corresponding tag
             this.nodeList.get(thisIndex).setStatus(1); //make sure the original ones are senders
+            this.nodeList.get(thisIndex).setCarriedTag(thisTag); //let the original senders carry this tag
         }
 
         findNextGroupAndProcess_full(1);
 
         System.out.println("Done. ");
-        reportTagCounter();
+        //reportTagCounter();
+        return performance();
 
     }
 
@@ -146,7 +148,7 @@ public class RmaxFull {
                 int thisSender = this.receiverMap.get(thisTag).get(k);
                 //this node must be at the SEND(1) status
                 //this node must actually choose this tag to send (this tag is the rarest for this node)
-                if (this.nodeList.get(thisSender).status != 1 || !this.nodeList.get(thisSender).chooseTagToSend(signals, tagCounter).equals(thisTag)) {
+                if (this.nodeList.get(thisSender).status != 1 || !this.nodeList.get(thisSender).carriedTag.equals(thisTag)) {
                     continue;
                 }
                 // this node agrees to send this tag, now getNewReceivers for it
@@ -206,11 +208,15 @@ public class RmaxFull {
 
             //else: RECEIVE successfully, next round SEND(1)
             String tag = this.nodeList.get(thisNode).chooseTag();
-            // set the successfull sender back to RECEIVE(0) only when he is done
+            // set the successful sender to SEND(1) only when he is done
+            // else, set the sender to RECEIVER(0)
             if (!this.nodeList.get(chosenSender).isDone(this.signals.size())) {
+                this.nodeList.get(chosenSender).setStatus(1);
+            } else {
                 this.nodeList.get(chosenSender).setStatus(0);
             }
             this.nodeList.get(thisNode).clearCompetitor();
+            //if receiver successfully received, set status to SEND(1), setCarriedTag to the latest updated tag
             this.nodeList.get(thisNode).setStatus(1);
 
             this.receiverMap.get(tag).add(thisNode); //add this receiver to the corresponding receiverMap under this tag
@@ -222,13 +228,50 @@ public class RmaxFull {
         }
     }
 
-    //make sure all nodes now has an updated carried tag (the rarest among their tag pool)
-    //if a node has not tags yet, it carries "".
+    //make sure all nodes now has an updated carried tag (the one that once sent can reach more new receivers)
+    //only for senders
     public void updateCarriedTag() {
         for (int i = 0; i < this.nodeList.size(); i++) {
-            this.nodeList.get(i).updateCarriedTag(this.signals, this.tagCounter);
+            //consider only senders
+            if (this.nodeList.get(i).status != 1) {
+                continue;
+            }
+            int index = -1;
+            int max = Integer.MIN_VALUE;
+            for (int j = 0; j < this.signals.size(); j++) {
+                String sig = this.signals.get(j);
+                //consider only their known tags
+                if (!this.nodeList.get(i).tags.contains(sig)) {
+                    continue;
+                }
+                int numReceiversForSig = getNewReceivers(i, this.nodeList, sig, this.rmax).size();
+                if (numReceiversForSig > max) {
+                    index = j;
+                }
+
+            }
+            assert index != -1;
+            if (index != -1) {
+                this.nodeList.get(i).setCarriedTag(signals.get(index));
+            } else {
+                this.nodeList.get(i).updateCarriedTag(signals, tagCounter);
+            }
         }
     }
+
+    /**
+     * Returns average number of receivers.
+     * @return
+     */
+    public int performance() {
+        int numTags = signals.size();
+        int total = 0;
+        for (int j = 0; j < signals.size(); j++) {
+            total += tagCounter.get(signals.get(j));
+        }
+        return (int)(total/numTags);
+    }
+
 
     public void reportTagCounter() {
         System.out.println("Tags and their receivers: ");

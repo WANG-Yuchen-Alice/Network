@@ -48,6 +48,10 @@ public class Node {
         this.status = status;
     }
 
+    public void setCarriedTag(String tag) {
+        this.carriedTag = tag;
+    }
+
     public void addTag(String newTag) {
         this.tags.add(newTag);
     }
