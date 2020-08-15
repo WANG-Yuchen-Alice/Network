@@ -137,7 +137,7 @@ public class Node {
                 bestP = thisP;
             }
         }
-        if (bestP >= 2*(0.1)/3) {
+        if (bestP >= 2*(0.1)/3) { //TODO: check threshold
             return res;
         } else {
             return -1;

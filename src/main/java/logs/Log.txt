@@ -30,6 +30,16 @@ density > 10 90% (K = 10)
 ==discard competitor if the p is less than 0.5
 multiple better than multiple_full
 
+Idea
+ - (initial senders far apart) divide the graph into areas with initial senders being the leader of each area; fill each area and exchange infomation in cycle
+ - (initial senders squeezed together) send one by one like a tree with the first signal faster by one hop than the following signal
+ - (for 1 signal) each round senders check with Rmax and count the new receivers they can reach, they then adjust Rmax to dmax (the distance to the
+ farest new receivers). Each sender keep a list of new receivers with descending distance. Sender with max #receiver send first (with dmax)
+ and mark the receivers correspondingly. The next sender then start from the receiver after skipping the first several receivers
+ that are already marked by previous more advantageous sender. If no more receivers are in the list, this sender does nothing in the current round.
+ ==> this is DISTRIBUTED as one sender only know about senders that are with in 2*Rmax with him and wait for superior competitor to make choices first
+ ==> only in implementation in Java that the ranking is done centrally
+
 
 
 
