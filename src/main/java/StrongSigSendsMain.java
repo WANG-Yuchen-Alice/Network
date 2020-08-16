@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class StrongSigSendsMain {
 
-    public static int density = 3;// average #neighbors
-    public static int L = 10 ; //#length
+    public static int density = 2;// average #neighbors
+    public static int L = 6 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes

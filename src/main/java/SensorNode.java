@@ -123,6 +123,8 @@ public class SensorNode implements Comparable<SensorNode> {
         }
         String carriedSig = signals.get(index);
 
+        System.out.print(this.id + "(" + carriedSig + ")" + " -> ");
+
         //send carriedSig to receivers
         for (int i = 0; i < this.targets.size(); i++) {
             int id = this.targets.get(i);
@@ -131,6 +133,7 @@ public class SensorNode implements Comparable<SensorNode> {
                 receiver.addSignal(carriedSig);
                 receiver.setStatus(1); //after receive, the receiver has its status altered to 1, so in the next round it will SEND
                 //but it won't receive anymore
+                System.out.print(id + " ");
                 int newNum = tagCounter.get(carriedSig) + 1;
                 if (newNum == nodes.size()) {
                     return true;
@@ -138,6 +141,7 @@ public class SensorNode implements Comparable<SensorNode> {
                 tagCounter.put(carriedSig, newNum);
             }
         }
+        System.out.println();
 
         //the sender's status is still 2, but it will be removed from the sender queue
         return false;

@@ -47,7 +47,11 @@ public class StrongSigSends {
 
     public void process(ArrayList<SensorNode> senders) {
         if ((this.doneTags >= signals.size() && signals.size() != 0) || this.round >= maxHop) {
-            System.out.println("goodbye");
+            if(this.doneTags >= signals.size() && signals.size() != 0) {
+                System.out.println("Everything done");
+            } else {
+                System.out.println(round);
+            }
             reportResults();
             return;
         }

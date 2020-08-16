@@ -22,7 +22,7 @@ public class PositionGraph {
         System.out.println();
         for (int i = 0; i < this.N; i++) {
             for (int j = 0; j < this.N; j++) {
-                if (this.positionGraph[i][j] == 1) {
+                if (this.positionGraph[i][j] != 0) {
                     System.out.print("* ");
                 } else {
                     System.out.print("  ");
@@ -34,6 +34,24 @@ public class PositionGraph {
             System.out.print("=");
         }
         System.out.println();
+        for (int i = 0; i < this.N * 2 - 1; i++) {
+            System.out.print("=");
+        }
+        for (int i = 0; i < this.N; i++) {
+            for (int j = 0; j < this.N; j++) {
+                if (this.positionGraph[i][j] != 0) {
+                    System.out.print(this.positionGraph[i][j]);
+                } else {
+                    System.out.print("  ");
+                }
+            }
+            System.out.println();
+        }
+        for (int i = 0; i < this.N * 2 - 1; i++) {
+            System.out.print("=");
+        }
+        System.out.println();
+
     }
 
 }

@@ -223,7 +223,7 @@ public class NodeList {
     public PositionGraph nodeListToPositionGraph(int L) {
         int[][] positionGraph = new int[L][L];
         for (int i = 0; i < this.nodeList.size(); i++) {
-            positionGraph[this.nodeList.get(i).getI()][this.nodeList.get(i).getJ()] = 1;
+            positionGraph[this.nodeList.get(i).getI()][this.nodeList.get(i).getJ()] = this.nodeList.get(i).getId();
         }
         return new PositionGraph(positionGraph);
     }
