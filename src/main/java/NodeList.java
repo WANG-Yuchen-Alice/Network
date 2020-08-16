@@ -258,4 +258,16 @@ public class NodeList {
             System.out.println();
         }
     }
+
+    public ArrayList<SensorNode> toSensorNodeArrayList(double r) {
+        ArrayList<SensorNode> nodeList = new ArrayList<>();
+        for (int k = 0; k < this.nodeList.size(); k++) {
+            Node node = this.nodeList.get(k);
+            int i = node.getI();
+            int j = node.getJ();
+            int id = node.getId();
+            nodeList.add(new SensorNode(i, j, id, r));
+        }
+        return nodeList;
+    }
 }

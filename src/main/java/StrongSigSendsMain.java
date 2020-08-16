@@ -1,19 +1,19 @@
 package main.java;
 
-import main.java.logic.RmaxGreedy;
+import main.java.logic.StrongSigSends;
 import main.java.tool.SignalGenerator;
 
 import java.util.ArrayList;
 
-public class NetworkMain {
+public class StrongSigSendsMain {
 
-    public static int density = 5;// average #neighbors
-    public static int L = 20 ; //#length
+    public static int density = 3;// average #neighbors
+    public static int L = 10 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes
     public static int H = (int)((Math.sqrt(2) * L)/2);  //max hops
-    public static int K = 5; //#signals
+    public static int K = 2; //#signals
 
     public static void main(String[] args) {
         int N = (int)Math.min(computeN(A, L, density, r), A);
@@ -25,18 +25,10 @@ public class NetworkMain {
         positionGraph.displayPositionGraph();
         ArrayList<String> signals = new ArrayList<>();
         generateSignals(signals, K);
+        ArrayList<SensorNode> nodes = nodeList.toSensorNodeArrayList(r);
 
-        //RmaxFull rmaxFull = new RmaxFull(nodeList.getList(), L, r, H);
-        /*System.out.println("density: " + nodeList.averageNeighbors(rmaxFull.rmax));
-        rmaxFull.setSignals(signals);
-        System.out.println("signal set");*/
-        RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L, r, H);
-        System.out.println("density: " + nodeList.averageNeighbors(rmaxGreedy.rmax));
-        rmaxGreedy.setSignals(signals);
-        System.out.println("signal set");
-        //rmaxGreedy.runSingle();
-        //rmaxGreedy.runMultiple();
-        int ans = rmaxGreedy.runMultiple();
+        StrongSigSends sss = new StrongSigSends(nodes, signals, L, r);
+        sss.run();
     }
 
     public static int computeN(double A, int L, int density, double r) {

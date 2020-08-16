@@ -1,26 +1,31 @@
 package main.java;
 
+import main.java.logic.StrongSigSends;
+
 import java.util.ArrayList;
 
 public class tryMain {
     public static void main(String[] args) {
-        ArrayList<Node> nList = new ArrayList<Node>();
-        nList.add(new Node(1,1,1));
-        nList.add(new Node(2,2,2));
-        nList.add(new Node(3,3,3));
-        printList(nList);
-        ArrayList<Node> temp = nList;
-        temp.remove(1);
-        printList(temp);
-        printList(nList);
+        ArrayList<SensorNode> nodes = new ArrayList<>();
+        nodes.add(new SensorNode(1, 1, 0, 7));
+        nodes.get(0).setNum(50);
+        nodes.add(new SensorNode(2, 2, 1, 7));
+        nodes.get(1).setNum(30);
+        nodes.add(new SensorNode(3, 3, 2, 7));
+        nodes.get(2).setNum(50);
 
-    }
+        ArrayList<Integer> senders = new ArrayList<>();
+        senders.add(0);
+        senders.add(2);
+        senders.add(1);
 
-    public static void printList(ArrayList<Node> nList) {
-        System.out.println("print out list");
-        for (int i = 0; i < nList.size(); i++) {
-            System.out.println(nList.get(i).toString());
+        StrongSigSends sss = new StrongSigSends(nodes, new ArrayList<String>(), 3, 1.5);
+        sss.process(nodes);
+
+        for (int i = 0; i < nodes.size(); i++) {
+            System.out.println(nodes.get(i).getId());
         }
+
     }
 
 
