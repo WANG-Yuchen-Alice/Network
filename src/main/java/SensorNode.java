@@ -9,6 +9,7 @@ public class SensorNode implements Comparable<SensorNode> {
     public int i;
     public int j;
     public int id; //position at the nodeList
+    public String carriedSig;
     public ArrayList<Integer> targets; //list of default receivers within the range; in id
     public HashSet<String> signals_set;
     //public ArrayList<String> signals_arr;
@@ -20,6 +21,7 @@ public class SensorNode implements Comparable<SensorNode> {
         this.i = i;
         this.j = j;
         this.id = id;
+        carriedSig = "";
         this.targets = new ArrayList<Integer>();
         this.signals_set = new HashSet<String>();
         //this.signals_arr = new ArrayList<>();
@@ -37,6 +39,14 @@ public class SensorNode implements Comparable<SensorNode> {
 
     public int getId() {
         return id;
+    }
+
+    public String getCarriedSig(){
+        return carriedSig;
+    }
+
+    public void setCarriedSig(String sig) {
+        this.carriedSig = sig;
     }
 
     public ArrayList<Integer> getTargets() {
@@ -73,7 +83,7 @@ public class SensorNode implements Comparable<SensorNode> {
             if (i == this.id) {
                 continue;
             }
-            if (this.getDistance(nodeList.get(i)) < r) {
+            if (this.getDistance(nodeList.get(i)) <= r) {
                 this.targets.add(i);
                 this.num++;
             }
@@ -101,15 +111,19 @@ public class SensorNode implements Comparable<SensorNode> {
         return res;
     }
 
-    //send
+    //================================================send======================================
     //return true if a signal has reached the max receivers -> doneTags ++
     public boolean send(ArrayList<SensorNode> nodes, HashMap<String, Integer> tagCounter) {
         if (this.signals_set.isEmpty()) {
             System.out.println("error: sender with empty signal pool");
             return false;
         }
+        if (this.carriedSig == "") {
+            System.out.println(this.getId() + "this node does not even carry a signal");
+            return false;
+        }
 
-        //pick the best signal to send
+        /*//pick the best signal to send
         ArrayList<String> signals = new ArrayList<>(this.signals_set);
 
         int max = -1;
@@ -121,26 +135,27 @@ public class SensorNode implements Comparable<SensorNode> {
                 index = i;
             }
         }
-        String carriedSig = signals.get(index);
+        String carriedSig = signals.get(index);*/
 
-        System.out.print(this.id + "(" + carriedSig + ")" + " -> ");
+        System.out.print(this.id + "(" + this.carriedSig + ")" + " -> ");
 
         //send carriedSig to receivers
         for (int i = 0; i < this.targets.size(); i++) {
             int id = this.targets.get(i);
             SensorNode receiver = nodes.get(id);
-            if (receiver.status == 0 && !receiver.signals_set.contains(carriedSig)) {
-                receiver.addSignal(carriedSig);
+            if (receiver.status == 0 && !receiver.signals_set.contains(this.carriedSig)) {
+                receiver.addSignal(this.carriedSig);
                 receiver.setStatus(1); //after receive, the receiver has its status altered to 1, so in the next round it will SEND
                 //but it won't receive anymore
                 System.out.print(id + " ");
-                int newNum = tagCounter.get(carriedSig) + 1;
+                int newNum = tagCounter.get(this.carriedSig) + 1;
+                tagCounter.put(this.carriedSig, newNum);
                 if (newNum == nodes.size()) {
                     return true;
                 }
-                tagCounter.put(carriedSig, newNum);
             }
         }
+
         System.out.println();
 
         //the sender's status is still 2, but it will be removed from the sender queue
@@ -172,7 +187,7 @@ public class SensorNode implements Comparable<SensorNode> {
                 index = i;
             }
         }
-        String carriedSig = signals.get(index);
+        this.carriedSig = signals.get(index);
         this.num = max;
     }
 

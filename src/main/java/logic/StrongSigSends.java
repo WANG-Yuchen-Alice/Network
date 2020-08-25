@@ -23,7 +23,7 @@ public class StrongSigSends {
     public int round;
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
 
-    public StrongSigSends(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax) {
+    public StrongSigSends(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H) {
         this.N = nodeList.size();
         this.L = L;
         this.rmax = rmax;
@@ -32,14 +32,16 @@ public class StrongSigSends {
         this.signals = signals;
         this.tagCounter = new HashMap<>();
 
-        this.maxHop = 2 * (int)Math.sqrt(L); //average
+        this.maxHop = H; //average
         this.doneTags =  0;
         this.round = 0;
         //this.board = new int[this.N];
     }
 
     public void run() {
+        System.out.println("max hop: " + this.maxHop);
         initializeBigList();
+        showBigList();
         ArrayList<Integer> oriSenders = prepareOriSenders();
         ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
         process(oriNodes);
@@ -87,6 +89,18 @@ public class StrongSigSends {
         }
     }
 
+    public void showBigList() {
+        for (int i = 0; i < this.bigList.size(); i++) {
+            System.out.print(i + ": ");
+            ArrayList<Integer> list = this.nodeList.get(i).getTargets();
+            for (int j = 0; j < list.size(); j++) {
+                System.out.print(list.get(j) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     //================================Prepare Original Senders=============================
     //select #signals original senders, set their status to be 2 (all others are 0), set their #tags to be 1
     public ArrayList<Integer> prepareOriSenders() {
@@ -105,6 +119,7 @@ public class StrongSigSends {
             tagCounter.put(thisTag, 1);
 
             this.nodeList.get(thisIndex).addSignal(thisTag); //all original senders "has known" the corresponding tag
+            this.nodeList.get(thisIndex).setCarriedSig(thisTag);
             this.nodeList.get(thisIndex).setStatus(2); //make sure the original ones are senders
         }
         return new ArrayList<>(oriSenders);
@@ -155,7 +170,7 @@ public class StrongSigSends {
         for (int i = 0; i < this.signals.size(); i++) {
             String sig = this.signals.get(i);
             int outcome = this.tagCounter.get(this.signals.get(i));
-            System.out.println(sig + " " + outcome + " " + outcome * 1.0 / this.N);
+            System.out.println(sig + " " + outcome + " " + (outcome * 100.0 / this.N) + "%");
         }
     }
 

@@ -19,7 +19,7 @@ public class tryMain {
         senders.add(2);
         senders.add(1);
 
-        StrongSigSends sss = new StrongSigSends(nodes, new ArrayList<String>(), 3, 1.5);
+        StrongSigSends sss = new StrongSigSends(nodes, new ArrayList<String>(), 3, 1.5, 5);
         sss.process(nodes);
 
         for (int i = 0; i < nodes.size(); i++) {

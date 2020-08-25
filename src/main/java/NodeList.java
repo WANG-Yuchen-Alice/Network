@@ -222,6 +222,11 @@ public class NodeList {
 
     public PositionGraph nodeListToPositionGraph(int L) {
         int[][] positionGraph = new int[L][L];
+        for (int i = 0; i < L; i++) {
+            for (int j = 0; j < L; j++) {
+                positionGraph[i][j] = -1;
+            }
+        }
         for (int i = 0; i < this.nodeList.size(); i++) {
             positionGraph[this.nodeList.get(i).getI()][this.nodeList.get(i).getJ()] = this.nodeList.get(i).getId();
         }
@@ -269,5 +274,14 @@ public class NodeList {
             nodeList.add(new SensorNode(i, j, id, r));
         }
         return nodeList;
+    }
+
+    public void show() {
+        System.out.println("==========The node list: ==========");
+        for (int i = 0; i < this.nodeList.size(); i++) {
+            Node node = this.nodeList.get(i);
+            System.out.print(node.getId() + " " + node.toString() + " -> ");
+        }
+        System.out.println();
     }
 }
