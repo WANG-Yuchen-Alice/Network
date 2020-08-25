@@ -17,6 +17,7 @@ public class StrongSigSends {
     public ArrayList<ArrayList<Integer>> bigList;
     public ArrayList<String> signals;
     public HashMap<String, Integer> tagCounter; //tag - #receivers
+    public HashSet<String> doneTagSet;
 
     public int maxHop;
     public int doneTags;
@@ -31,6 +32,7 @@ public class StrongSigSends {
         this.bigList = new ArrayList<>();
         this.signals = signals;
         this.tagCounter = new HashMap<>();
+        this.doneTagSet = new HashSet<>();
 
         this.maxHop = H; //average
         this.doneTags =  0;
@@ -42,7 +44,7 @@ public class StrongSigSends {
         System.out.println("max hop: " + this.maxHop);
         initializeBigList();
         showBigList();
-        ArrayList<Integer> oriSenders = prepareOriSenders();
+        ArrayList<Integer> oriSenders = prepareOriSenders();//TODO: original senders should not send in the same round perhaps?
         ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
         process(oriNodes);
     }
@@ -67,9 +69,18 @@ public class StrongSigSends {
         while(senders.size() > 0) {
             //this node is sending now
             SensorNode thisSender = senders.get(0); //always pick the first one - the most powerful one
-            boolean oneMoreDoneTag = thisSender.send(this.nodeList, tagCounter);
-            if (oneMoreDoneTag) {
+            if (thisSender.getNum() < 0) {
+                break;
+            }
+            String oneMoreDoneTag = thisSender.send(this.nodeList, tagCounter);
+            if (!oneMoreDoneTag.equals("")) {
                 this.doneTags ++;
+                this.doneTagSet.add(oneMoreDoneTag);
+                System.out.println("=================yeah tag done: " + oneMoreDoneTag);
+                if (this.doneTags == this.signals.size()) {
+                    System.out.println("Everything done");
+                    return;
+                }
             }
             //remove the first one,
             senders.remove(0);
@@ -137,13 +148,13 @@ public class StrongSigSends {
     //after the currently best sender sends, receivers altered to 1, so the rest senders' num might change
     public void updateSenderHierarchy(ArrayList<SensorNode> senders) {
         for (int i = 0; i < senders.size(); i++) {
-            senders.get(i).updateNum(this.nodeList);
+            senders.get(i).updateNum(this.nodeList, doneTagSet);
         }
     }
 
     //update nodes' status: 2 -> 0; 1 -> 2; 0 -> 2 (if got at least one signal)
     //return a list of senders (of status 2) as senders for the next round
-    public ArrayList<SensorNode> prepareSenderForNextRound() {
+    public ArrayList<SensorNode> prepareSenderForNextRound() { //TODO: continuous failure should lead to freeze
         ArrayList<SensorNode> senders = new ArrayList<>();
         for (int i = 0; i < this.N; i++) {
             SensorNode thisNode = this.nodeList.get(i);

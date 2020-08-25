@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="Statistics.">
+    <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/SensorNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/SensorNode.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/StrongSigSendsMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/StrongSigSendsMain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/StrongSigSends.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/StrongSigSends.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/NodeList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/NodeList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PositionGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PositionGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SensorNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SensorNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/StrongSigSendsMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/StrongSigSendsMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/StrongSigSends.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/StrongSigSends.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tryMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tryMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logs/Log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logs/Log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586264124105</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="StrongSigSends: maxhop: K*diagnal jump; 100%">
+      <created>1598350254685</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1598350254685</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -274,7 +279,8 @@
     <MESSAGE value="One potential sender can only send for 1 tag in each round." />
     <MESSAGE value="RmaxFull: successful RECEIVE/SEND, alter; failed RECEIVE/SEND, keep; if done, always SEND&#10;Each time carry the least sent tag." />
     <MESSAGE value="Statistics." />
-    <option name="LAST_COMMIT_MESSAGE" value="Statistics." />
+    <MESSAGE value="StrongSigSends: maxhop: K*diagnal jump; 100%" />
+    <option name="LAST_COMMIT_MESSAGE" value="StrongSigSends: maxhop: K*diagnal jump; 100%" />
   </component>
   <component name="WindowStateProjectService">
     <state x="446" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1597545477389">
@@ -285,21 +291,21 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="296" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1598350253059" />
-    <state width="1237" height="386" key="GridCell.Tab.0.bottom" timestamp="1598350180776">
+    <state width="1237" height="226" key="GridCell.Tab.0.bottom" timestamp="1598352942429">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="386" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1598350180776" />
-    <state width="1237" height="386" key="GridCell.Tab.0.center" timestamp="1598350180776">
+    <state width="1237" height="226" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1598352942429" />
+    <state width="1237" height="226" key="GridCell.Tab.0.center" timestamp="1598352942429">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="386" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1598350180776" />
-    <state width="1237" height="386" key="GridCell.Tab.0.left" timestamp="1598350180776">
+    <state width="1237" height="226" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1598352942429" />
+    <state width="1237" height="226" key="GridCell.Tab.0.left" timestamp="1598352942429">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="386" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1598350180776" />
-    <state width="1237" height="386" key="GridCell.Tab.0.right" timestamp="1598350180776">
+    <state width="1237" height="226" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1598352942429" />
+    <state width="1237" height="226" key="GridCell.Tab.0.right" timestamp="1598352942429">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="386" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1598350180776" />
+    <state width="1237" height="226" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1598352942429" />
   </component>
 </project>

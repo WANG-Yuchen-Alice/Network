@@ -112,15 +112,16 @@ public class SensorNode implements Comparable<SensorNode> {
     }
 
     //================================================send======================================
-    //return true if a signal has reached the max receivers -> doneTags ++
-    public boolean send(ArrayList<SensorNode> nodes, HashMap<String, Integer> tagCounter) {
+    //return the sent signal if a signal has reached the max receivers -> doneTags ++
+    //else return ""
+    public String send(ArrayList<SensorNode> nodes, HashMap<String, Integer> tagCounter) {
         if (this.signals_set.isEmpty()) {
             System.out.println("error: sender with empty signal pool");
-            return false;
+            return "";
         }
         if (this.carriedSig == "") {
             System.out.println(this.getId() + "this node does not even carry a signal");
-            return false;
+            return "";
         }
 
         /*//pick the best signal to send
@@ -137,21 +138,23 @@ public class SensorNode implements Comparable<SensorNode> {
         }
         String carriedSig = signals.get(index);*/
 
-        System.out.print(this.id + "(" + this.carriedSig + ")" + " -> ");
+        String sig = this.getCarriedSig();
+
+        System.out.print(this.id + "(" + sig + ")" + " -> ");
 
         //send carriedSig to receivers
         for (int i = 0; i < this.targets.size(); i++) {
             int id = this.targets.get(i);
             SensorNode receiver = nodes.get(id);
-            if (receiver.status == 0 && !receiver.signals_set.contains(this.carriedSig)) {
-                receiver.addSignal(this.carriedSig);
+            if (receiver.status == 0 && !receiver.signals_set.contains(sig)) {
+                receiver.addSignal(sig);
                 receiver.setStatus(1); //after receive, the receiver has its status altered to 1, so in the next round it will SEND
                 //but it won't receive anymore
                 System.out.print(id + " ");
-                int newNum = tagCounter.get(this.carriedSig) + 1;
-                tagCounter.put(this.carriedSig, newNum);
+                int newNum = tagCounter.get(sig) + 1;
+                tagCounter.put(sig, newNum);
                 if (newNum == nodes.size()) {
-                    return true;
+                    return sig;
                 }
             }
         }
@@ -159,7 +162,7 @@ public class SensorNode implements Comparable<SensorNode> {
         System.out.println();
 
         //the sender's status is still 2, but it will be removed from the sender queue
-        return false;
+        return "";
     }
 
     //count receivers
@@ -176,12 +179,16 @@ public class SensorNode implements Comparable<SensorNode> {
 
     //update num
     //re-count the number of new receivers
-    public void updateNum(ArrayList<SensorNode> nodes) {
+    public void updateNum(ArrayList<SensorNode> nodes, HashSet<String> doneTagSet) {
         ArrayList<String> signals = new ArrayList<>(this.signals_set);
         int max = -1;
         int index = 0;
         for (int i = 0; i < signals.size(); i++) {
-            int res = countReceivers(nodes, signals.get(i));
+            String thisSig = signals.get(i);
+            if (doneTagSet.contains(thisSig)) {
+                continue;
+            }
+            int res = countReceivers(nodes, thisSig);
             if (res > max) {
                 max = res;
                 index = i;

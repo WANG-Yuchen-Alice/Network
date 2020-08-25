@@ -41,6 +41,11 @@ Idea
  ==> only in implementation in Java that the ranking is done centrally
 
 
+20200825 StrongSigSends
+K = 1, 2, 3
+maxHop = diagonal / rmax * K
+100%
+
 
 
 
