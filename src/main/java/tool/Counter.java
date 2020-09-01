@@ -29,8 +29,6 @@ public class Counter {
 
             RmaxGreedy rmaxGreedy = new RmaxGreedy(nodeList.getList(), L, r, H);
             rmaxGreedy.setSignals(signals);
-
-            total += rmaxGreedy.runMultiple();
         }
         System.out.println("============================");
         System.out.println("N: " + N);

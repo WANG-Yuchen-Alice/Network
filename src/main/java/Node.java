@@ -6,9 +6,11 @@ public class Node {
 
     public int i;
     public int j;
+    public int id;
     public String message;
     public HashSet<String> tags; //store all the tags known by this node
-    public int id;
+    public ArrayList<Integer> targets; //potential receivers within the rmax range
+    public ArrayList<Integer> nextReceivers; //receivers for the coming round (update together with the carriedSignal)
     public ArrayList<Integer> competitors;
     public HashMap<Integer, String> tagMap; //store competitor - tag pairs
     public HashMap<Integer, Double> pMap; //store competitor - 1/d^2 pairs
@@ -22,6 +24,8 @@ public class Node {
         this.id = id;
         this.message = "";
         this.tags = new HashSet<>();
+        this.targets = new ArrayList<>();
+        this.nextReceivers = new ArrayList<>();
         this.competitors = new ArrayList<>();
         this.tagMap = new HashMap<>();
         this.pMap = new HashMap<>();
@@ -50,6 +54,10 @@ public class Node {
 
     public void setCarriedTag(String tag) {
         this.carriedTag = tag;
+    }
+
+    public void setTargets(ArrayList<Integer> targets) {
+        this.targets = targets;
     }
 
     public void addTag(String newTag) {
@@ -90,10 +98,38 @@ public class Node {
         return num;
     }
 
-    public void updateCarriedTag(ArrayList<String> signals, HashMap<String, Integer> tagCounter) {
-        this.carriedTag = chooseTagToSend(signals, tagCounter);
+    public void updateCarriedTagAndReceivers(ArrayList<Node> nodes, double r) {
+        boolean success = false;
+        ArrayList<String> sigs = new ArrayList<>(this.tags);
+        int max = -1;
+        for (int i = 0; i < sigs.size(); i++) {
+            String str = sigs.get(i);
+            int cnt = 0;
+            ArrayList<Integer> possibleReceivers = new ArrayList<>();
+            for (int j = 0; j < this.targets.size(); j++) {
+                int thatId = this.targets.get(j);
+                //if a receiver is RECEIVER and does not know the signal yet, count it as a potential receivers
+                if (nodes.get(thatId).status == 0 && !nodes.get(thatId).isKnown(str)) {
+                    cnt ++;
+                    possibleReceivers.add(thatId);
+                }
+            }
+            if (cnt > max) {
+                success = true;
+                max = cnt;
+                this.setCarriedTag(str);
+                this.nextReceivers = possibleReceivers;
+            }
+        }
+        if (this.nextReceivers.size() <= 0) {
+            //System.out.println(this.id + " Empty potential receivers");
+        }
+        if (!success) {
+            System.out.println("Failure in set carried signal / receivers");
+        }
     }
 
+    //choose to carry the signal that is the least popular
     public String chooseTagToSend(ArrayList<String> signals, HashMap<String, Integer> tagCounter) {
         if (this.tags.size() == 0) {
             return "";
@@ -114,7 +150,7 @@ public class Node {
 
     public void addCompetitor(int id, String tag, Node sender) {
         this.competitors.add(id);
-        this.tagMap.put(id, tag);
+        //this.tagMap.put(id, tag);
         double dis2 = 1 / Math.pow(distanceTo(sender), 2);
         this.pMap.put(id, dis2);
         this.distance2Sum += dis2;
@@ -122,7 +158,7 @@ public class Node {
 
     public void clearCompetitor() {
         this.competitors.clear();
-        this.tagMap.clear();
+        //this.tagMap.clear();
         this.pMap.clear();
         this.distance2Sum = 0.0;
     }

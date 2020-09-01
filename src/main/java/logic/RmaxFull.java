@@ -254,7 +254,7 @@ public class RmaxFull {
             if (index != -1) {
                 this.nodeList.get(i).setCarriedTag(signals.get(index));
             } else {
-                this.nodeList.get(i).updateCarriedTag(signals, tagCounter);
+                //this.nodeList.get(i).updateCarriedTag(signals, tagCounter);
             }
         }
     }
