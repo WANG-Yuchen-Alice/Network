@@ -26,6 +26,8 @@ Key rules to follow:
  */
 
 //TODO: combined signals -> Do nodes memorize?
+//TODO: capture effect: possibility, thresholding
+//TODO: check success via feedback (network coding); failed sender, probability
 
 public class DistributedRatio {
 
@@ -39,7 +41,6 @@ public class DistributedRatio {
     public HashSet<String> doneTagSet;
 
     public int maxHop;
-    public int doneTags;
     public int round;
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
 
@@ -54,7 +55,6 @@ public class DistributedRatio {
         this.doneTagSet = new HashSet<>();
 
         this.maxHop = H; //average
-        this.doneTags =  0;
         this.round = 0;
         //this.board = new int[this.N];
     }
@@ -69,8 +69,8 @@ public class DistributedRatio {
     }
 
     public void process(ArrayList<SensorNode> senders) {
-        if ((this.doneTags >= signals.size() && signals.size() != 0) || this.round >= maxHop) {
-            if(this.doneTags >= signals.size() && signals.size() != 0) {
+        if (isDone() || this.round >= maxHop) {
+            if(isDone()) {
                 System.out.println("Everything done");
             } else {
                 System.out.println(round);
@@ -91,15 +91,22 @@ public class DistributedRatio {
 
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool
-            senders.get(i).reachOut();
+            senders.get(i).reachOut(this.nodeList);
         }
 
         for (int i = 0; i < this.nodeList.size(); i++) {
             SensorNode thisReceiver = this.nodeList.get(i);
-            thisReceiver.chooseSender();
+            int senderId = thisReceiver.chooseSender(this.nodeList);
+            //if the current node is not open; or alr has all the signals, continue;
+            if (senderId == -1) {
+                continue;
+            }
+            nodeList.get(senderId).sendTo(thisReceiver, tagCounter);
         }
 
-        senders = prepareSenderForNextRound_distributed();
+        senders = prepareSenderForNextRound();
+        clearCompetitors();
+        updateCarriedSignals(senders);
         process(senders);
     }
 
@@ -156,16 +163,10 @@ public class DistributedRatio {
     }
 
     //================================Adjust Sender Hierarchy=============================
-    //after the currently best sender sends, receivers altered to 1, so the rest senders' num might change
-    public void updateSenderHierarchy(ArrayList<SensorNode> senders) {
-        for (int i = 0; i < senders.size(); i++) {
-            senders.get(i).updateNum(this.nodeList, doneTagSet);
-        }
-    }
-
     //update nodes' status: 2 -> 0; 1 -> 2; 0 -> 2 (if got at least one signal)
     //return a list of senders (of status 2) as senders for the next round
     public ArrayList<SensorNode> prepareSenderForNextRound() { //TODO: continuous failure should lead to freeze
+        //update status:
         ArrayList<SensorNode> senders = new ArrayList<>();
         for (int i = 0; i < this.N; i++) {
             SensorNode thisNode = this.nodeList.get(i);
@@ -186,7 +187,27 @@ public class DistributedRatio {
         return senders;
     }
 
+    public void clearCompetitors() {
+        for (int i = 0; i < this.N; i++) {
+            this.nodeList.get(i).clearCompetitors();
+        }
+    }
+
+    public void updateCarriedSignals(ArrayList<SensorNode> senders) {
+        //TODO: update carried signal
+    }
+
     //================================Report Results=============================
+    //check whether every signal has reached all receivers
+    public boolean isDone() {
+        for (int i = 0; i < this.signals.size(); i++) {
+            if (this.tagCounter.get(this.signals.get(i)) < this.N) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void reportResults() {
         System.out.println("==================Results=================");
         for (int i = 0; i < this.signals.size(); i++) {

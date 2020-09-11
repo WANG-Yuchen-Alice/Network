@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.logic.DistributedRatio;
 import main.java.logic.StrongSigSends;
 import main.java.tool.SignalGenerator;
 
@@ -8,11 +9,11 @@ import java.util.ArrayList;
 public class StrongSigSendsMain {
 
     public static int density = 2;// average #neighbors
-    public static int L = 10 ; //#length
+    public static int L = 5 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes
-    public static int K = 3; //#signals
+    public static int K = 2; //#signals
     public static int H = ((int)((Math.sqrt(2) * L)/2) + 1) * K;  //max hops
 
 
@@ -28,8 +29,8 @@ public class StrongSigSendsMain {
         generateSignals(signals, K);
         ArrayList<SensorNode> nodes = nodeList.toSensorNodeArrayList(r);
 
-        StrongSigSends sss = new StrongSigSends(nodes, signals, L, r, H);
-        sss.run();
+        DistributedRatio dr = new DistributedRatio(nodes, signals, L, r, H);
+        dr.run();
     }
 
     public static int computeN(double A, int L, int density, double r) {

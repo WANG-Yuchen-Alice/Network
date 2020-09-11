@@ -18,6 +18,8 @@ public class SensorNode implements Comparable<SensorNode> {
     public int num; //current #available receivers
     //TODO: compute power consumption (r; dmax)
 
+    public HashSet<Integer> competitors;
+
     public SensorNode(int i, int j, int id, double r) {
         this.i = i;
         this.j = j;
@@ -29,6 +31,8 @@ public class SensorNode implements Comparable<SensorNode> {
         //this.signals_arr = new ArrayList<>();
         this.status = 0;
         this.num = 0;
+
+        this.competitors = new HashSet<Integer>();
     }
 
     //===============================================Getters===================================
@@ -90,6 +94,15 @@ public class SensorNode implements Comparable<SensorNode> {
 
     public void addSignal(String signal) {
         this.signals_set.add(signal);
+    }
+
+    public void addCompetitor(int id) {
+        this.competitors.add(id);
+    }
+
+    //clear competitors
+    public void clearCompetitors() {
+        this.competitors.clear();
     }
 
     //============================initialize default receivers===============================
@@ -169,6 +182,28 @@ public class SensorNode implements Comparable<SensorNode> {
         return "";
     }
 
+    public void sendTo(SensorNode receiver, HashMap<String, Integer> tagCounter) {
+        if (this.signals_set.isEmpty()) {
+            System.out.println("error: sender with empty signal pool");
+            return;
+        }
+        if (this.carriedSig == "") {
+            System.out.println(this.getId() + "this node does not even carry a signal");
+            return;
+        }
+
+        String sig = this.getCarriedSig();
+
+        receiver.addSignal(sig);
+        receiver.setStatus(1);
+        receiver.setCarriedSig(sig);
+
+        System.out.println(this.id + "(" + sig + ")" + " -> " + receiver.getId());
+
+        int newNum = tagCounter.get(sig) + 1;
+        tagCounter.put(sig, newNum);
+    }
+
     //count receivers
     public int countReceivers(ArrayList<SensorNode> nodes, String sig) {
         int ans = 0;
@@ -214,6 +249,38 @@ public class SensorNode implements Comparable<SensorNode> {
         }
         double r = this.r * ((this.targets.size() - senderCnt) * 1.0 / this.targets.size());
         this.setR(r);
+    }
+
+    //===================================Competitors=================================
+    public void reachOut(ArrayList<SensorNode> nodes) {
+        for (int i = 0; i < this.targets.size(); i++) {
+            SensorNode receiver = nodes.get(this.targets.get(i));
+            receiver.addCompetitor(this.getId());
+        }
+    }
+
+    //choose the best competitor, return its id
+    //if the receiving node is not open, return -1
+    //TODO: threshold
+    public int chooseSender(ArrayList<SensorNode> nodeList) {
+        if (this.status != 0 || this.competitors.size() == 0) {
+            return -1;
+        }
+        ArrayList<Integer> competitors = new ArrayList<>(this.competitors);
+        double minDis = 500.0;
+        int id = -1;
+        for (int i = 0; i < competitors.size(); i++) {
+            SensorNode competitor = nodeList.get(competitors.get(i));
+            if (this.signals_set.contains(competitor.getCarriedSig())) {
+                continue;
+            }
+            double dis = Math.sqrt(Math.pow((competitor.getI() - this.getI()), 2) + Math.pow((competitor.getJ() - this.getJ()), 2));
+            if (i == 0 || dis < minDis) {
+                minDis = dis;
+                id = competitors.get(i);
+            }
+        }
+        return id;
     }
 
     /**
