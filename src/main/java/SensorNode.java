@@ -9,6 +9,7 @@ public class SensorNode implements Comparable<SensorNode> {
     public int i;
     public int j;
     public int id; //position at the nodeList
+    public double r;
     public String carriedSig;
     public ArrayList<Integer> targets; //list of default receivers within the range; in id
     public HashSet<String> signals_set;
@@ -21,6 +22,7 @@ public class SensorNode implements Comparable<SensorNode> {
         this.i = i;
         this.j = j;
         this.id = id;
+        this.r = r;
         carriedSig = "";
         this.targets = new ArrayList<Integer>();
         this.signals_set = new HashSet<String>();
@@ -28,6 +30,8 @@ public class SensorNode implements Comparable<SensorNode> {
         this.status = 0;
         this.num = 0;
     }
+
+    //===============================================Getters===================================
 
     public int getI() {
         return i;
@@ -41,12 +45,16 @@ public class SensorNode implements Comparable<SensorNode> {
         return id;
     }
 
-    public String getCarriedSig(){
-        return carriedSig;
+    public double getR() {
+        return r;
     }
 
-    public void setCarriedSig(String sig) {
-        this.carriedSig = sig;
+    public boolean isSender() {
+        return this.status == 2;
+    }
+
+    public String getCarriedSig(){
+        return carriedSig;
     }
 
     public ArrayList<Integer> getTargets() {
@@ -57,9 +65,7 @@ public class SensorNode implements Comparable<SensorNode> {
         return num;
     }
 
-    public void addSignal(String signal) {
-        this.signals_set.add(signal);
-    }
+    //===============================================Setters===================================
 
     public void setStatus(int status) {
         if (status != 0 && status != 1 && status != 2) {
@@ -72,6 +78,18 @@ public class SensorNode implements Comparable<SensorNode> {
     //should only be used for debugging purpose
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public void setCarriedSig(String sig) {
+        this.carriedSig = sig;
+    }
+
+    public void setR(double r) {
+        this.r = r;
+    }
+
+    public void addSignal(String signal) {
+        this.signals_set.add(signal);
     }
 
     //============================initialize default receivers===============================
@@ -123,20 +141,6 @@ public class SensorNode implements Comparable<SensorNode> {
             System.out.println(this.getId() + "this node does not even carry a signal");
             return "";
         }
-
-        /*//pick the best signal to send
-        ArrayList<String> signals = new ArrayList<>(this.signals_set);
-
-        int max = -1;
-        int index = 0;
-        for (int i = 0; i < signals.size(); i++) {
-            int res = countReceivers(nodes, signals.get(i));
-            if (res > max) {
-                max = res;
-                index = i;
-            }
-        }
-        String carriedSig = signals.get(index);*/
 
         String sig = this.getCarriedSig();
 
@@ -196,6 +200,20 @@ public class SensorNode implements Comparable<SensorNode> {
         }
         this.carriedSig = signals.get(index);
         this.num = max;
+    }
+
+    //=================================================DistributedRatio=====================================
+
+    //==========================================UpdateR====================================
+    public void updateR(ArrayList<SensorNode> nodes) {
+        int senderCnt = 0;
+        for (int i = 0; i < this.targets.size(); i++) {
+            if (nodes.get(targets.get(i)).isSender()) {
+                senderCnt ++;
+            }
+        }
+        double r = this.r * ((this.targets.size() - senderCnt) * 1.0 / this.targets.size());
+        this.setR(r);
     }
 
     /**

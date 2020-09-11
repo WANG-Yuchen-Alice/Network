@@ -12,7 +12,7 @@ public class StrongSigSendsMain {
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes
-    public static int K = 4; //#signals
+    public static int K = 3; //#signals
     public static int H = ((int)((Math.sqrt(2) * L)/2) + 1) * K;  //max hops
 
 
