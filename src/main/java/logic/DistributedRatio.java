@@ -19,15 +19,18 @@ Key rules to follow:
 - for all senders, the sending power is decided by the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
 ((#neighbors - #senders) / #neighbors). The more competitors there are in the neighborhood, the smaller the power range
 - capture effect in deciding for the successful senders [the strongest wins]
-- R (success) -> S: 2
-- R (fail) -> S (if non-empty pool); R (empty pool)
-- S (fail) -> p(S) = 1/#failed senders in the previous round: 1
-- S (success) -> R: 0
+- R (success) -> S
+- R (fail) -> R (empty pool); p(R) (non-empty) -p = threshold
+- S (fail) -> p(S) -p = threshold
+- S (success) -> R
+- status value:
+S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3?
  */
 
-//TODO: combined signals -> Do nodes memorize?
+//TODO: network code: emcompass more signals - result should be improved
+//TODO: failed sender, more SOLO time
 //TODO: capture effect: possibility, thresholding
-//TODO: check success via feedback (network coding); failed sender, probability
+//TODO: check success via feedback update achievement
 
 public class DistributedRatio {
 
@@ -42,9 +45,11 @@ public class DistributedRatio {
 
     public int maxHop;
     public int round;
+
+    public double failedSenderThreshold;
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
 
-    public DistributedRatio(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H) {
+    public DistributedRatio(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
         this.N = nodeList.size();
         this.L = L;
         this.rmax = rmax;
@@ -56,6 +61,8 @@ public class DistributedRatio {
 
         this.maxHop = H; //average
         this.round = 0;
+
+        this.failedSenderThreshold = threshold1;
         //this.board = new int[this.N];
     }
 
@@ -80,14 +87,14 @@ public class DistributedRatio {
         }
         //This is round n starting from 1, till maxHop
         this.round ++;
+        System.out.println("round: " + round);
 
         for (int i = 0; i < senders.size(); i++) {
             SensorNode thisSender = senders.get(i);
-            thisSender.updateR(this.nodeList);
+            thisSender.updateR(this.nodeList, this.rmax);
         }
 
-        //if updated r is too small, convert the sender to a receiver
-        //senders = denyWeakSenders(senders);
+        senders = convertWeakSenderToReceiver(senders); //if a sender's radius is chosen to be 0, convert it to a receiver
 
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool
@@ -114,6 +121,7 @@ public class DistributedRatio {
     public void initializeBigList() {
         for (int i = 0; i < N; i++) {
             this.nodeList.get(i).initializeTargets(this.nodeList, this.rmax);
+            this.nodeList.get(i).initializeNeighbors(this.nodeList, this.rmax);
             this.bigList.add(this.nodeList.get(i).getTargets());
         }
     }
@@ -147,9 +155,11 @@ public class DistributedRatio {
             oriSenders.add(thisIndex);
             tagCounter.put(thisTag, 1);
 
-            this.nodeList.get(thisIndex).addSignal(thisTag); //all original senders "has known" the corresponding tag
-            this.nodeList.get(thisIndex).setCarriedSig(thisTag);
-            this.nodeList.get(thisIndex).setStatus(2); //make sure the original ones are senders
+            SensorNode thisOriSender = this.nodeList.get(thisIndex);
+
+            thisOriSender.addSignal(thisTag); //all original senders "has known" the corresponding tag
+            thisOriSender.setCarriedSig(thisTag);
+            thisOriSender.setStatus(2); //make sure the original ones are senders
         }
         return new ArrayList<>(oriSenders);
     }
@@ -175,10 +185,15 @@ public class DistributedRatio {
             } else if (thisNode.status == 1) { //successful RECEIVE in this round, SEND in the next
                 thisNode.setStatus(2);
                 senders.add(thisNode);
-            } else { //0 in this round, unsuccessful RECEIVER, check if got signal yet
+            } else { //failed Receiver, check if got signal yet
                 if (thisNode.signals_set.size() > 0) {
-                    thisNode.setStatus(2);
-                    senders.add(thisNode);
+                    double coin = Math.random();
+                    if (coin > this.failedSenderThreshold) {
+                        thisNode.setStatus(2);
+                        senders.add(thisNode);
+                    } else {
+                        thisNode.setStatus(0);
+                    }
                 } else {
                     thisNode.setStatus(0);
                 }
@@ -193,8 +208,23 @@ public class DistributedRatio {
         }
     }
 
+    //update the carried signal to the least successful signal in the achievement pool
     public void updateCarriedSignals(ArrayList<SensorNode> senders) {
-        //TODO: update carried signal
+        for (SensorNode sender: senders) {
+            sender.updateCarriedSignal();
+        }
+    }
+
+    public ArrayList<SensorNode> convertWeakSenderToReceiver(ArrayList<SensorNode> senders) {
+        ArrayList<SensorNode> newSenders = new ArrayList<>();
+        for (SensorNode s: senders) {
+           if (s.getR() > 0) {
+               newSenders.add(s);
+           } else {
+               s.setStatus(0);
+           }
+        }
+        return newSenders;
     }
 
     //================================Report Results=============================

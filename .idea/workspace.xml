@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d487fa40-12d6-4af3-99d5-7a077af4b3a8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/DistributedRatioMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/SensorNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/SensorNode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/StrongSigSendsMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/StrongSigSendsMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Network/main/java/logic/DistributedRatio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Network/main/java/logic/DistributedRatio.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SensorNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SensorNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/StrongSigSendsMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/StrongSigSendsMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/DistributedRatio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/DistributedRatio.java" afterDir="false" />
@@ -45,13 +49,26 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager" selected="Application.StrongSigSendsMain">
+  <component name="RunManager" selected="Application.DistributedRatioMain">
     <configuration name="Counter" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.tool.Counter" />
       <module name="Network" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.java.tool.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DistributedRatioMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.DistributedRatioMain" />
+      <module name="Network" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -94,6 +111,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.DistributedRatioMain" />
         <item itemvalue="Application.StrongSigSendsMain" />
         <item itemvalue="Application.tryMain" />
         <item itemvalue="Application.Counter" />
@@ -279,46 +297,50 @@
     <option name="LAST_COMMIT_MESSAGE" value="StrongSigSends: maxhop: K*diagnal jump; 100%" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1597545477389">
+    <state x="446" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1601201964999">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1597545477389" />
+    <state x="446" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1601201964999" />
     <state x="296" y="0" key="CommitChangelistDialog2" timestamp="1598350253059">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="296" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1598350253059" />
-    <state width="1237" height="440" key="GridCell.Tab.0.bottom" timestamp="1599826063806">
+    <state width="1237" height="426" key="GridCell.Tab.0.bottom" timestamp="1601202875909">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="440" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1599826063806" />
-    <state width="1237" height="440" key="GridCell.Tab.0.center" timestamp="1599826063806">
+    <state width="1237" height="426" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1601202875909" />
+    <state width="1237" height="426" key="GridCell.Tab.0.center" timestamp="1601202875909">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="440" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1599826063806" />
-    <state width="1237" height="440" key="GridCell.Tab.0.left" timestamp="1599826063806">
+    <state width="1237" height="426" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1601202875909" />
+    <state width="1237" height="426" key="GridCell.Tab.0.left" timestamp="1601202875908">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="440" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1599826063806" />
-    <state width="1237" height="440" key="GridCell.Tab.0.right" timestamp="1599826063806">
+    <state width="1237" height="426" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1601202875908" />
+    <state width="1237" height="426" key="GridCell.Tab.0.right" timestamp="1601202875909">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="440" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1599826063806" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1599803609677">
+    <state width="1237" height="426" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1601202875909" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1601201579262">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1599803609677" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1599803609677">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1601201579262" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1601201579262">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1599803609677" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1599803609677">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1601201579262" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1601201579262">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1599803609677" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1599803609677">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1601201579262" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1601201579262">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1599803609677" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1601201579262" />
+    <state x="97" y="421" width="976" height="192" key="dock-window-1" timestamp="1601199856432">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="97" y="421" width="976" height="192" key="dock-window-1/0.0.1280.680@0.0.1280.680" timestamp="1601199856432" />
     <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1599809492356">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

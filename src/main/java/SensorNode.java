@@ -1,8 +1,11 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 public class SensorNode implements Comparable<SensorNode> {
 
@@ -11,7 +14,8 @@ public class SensorNode implements Comparable<SensorNode> {
     public int id; //position at the nodeList
     public double r;
     public String carriedSig;
-    public ArrayList<Integer> targets; //list of default receivers within the range; in id
+    public ArrayList<Integer> targets; //list of default receivers within the range rmax; in id //from closest to farest
+    public ArrayList<Integer> neighbors; //list of potential competitors within in the range 2 * rmax; in id
     public HashSet<String> signals_set;
     //public ArrayList<String> signals_arr;
     public int status; // 2 SEND; 0 RECEIVE; 1 RECEIVED IN THIS ROUND
@@ -27,6 +31,7 @@ public class SensorNode implements Comparable<SensorNode> {
         this.r = r;
         carriedSig = "";
         this.targets = new ArrayList<Integer>();
+        this.neighbors = new ArrayList<Integer>();
         this.signals_set = new HashSet<String>();
         //this.signals_arr = new ArrayList<>();
         this.status = 0;
@@ -109,6 +114,7 @@ public class SensorNode implements Comparable<SensorNode> {
 
     //initialize default receivers
     public void initializeTargets(ArrayList<SensorNode> nodeList, double r) {
+        int thisId = this.getId();
         for (int i = 0; i < nodeList.size(); i++) {
             //does not compare with itself
             if (i == this.id) {
@@ -116,6 +122,33 @@ public class SensorNode implements Comparable<SensorNode> {
             }
             if (this.getDistance(nodeList.get(i)) <= r) {
                 this.targets.add(i);
+                this.num++;
+            }
+        }
+
+        Collections.sort(targets, new Comparator<Integer>(){
+            @Override
+            public int compare(Integer t1, Integer t2) {
+                double dis1 = distance(nodeList.get(thisId), nodeList.get(t1));
+                double dis2 = distance(nodeList.get(thisId), nodeList.get(t2));
+                return (int)(dis1 - dis2);
+            }
+
+            public double distance(SensorNode a, SensorNode b) {
+                return Math.sqrt(Math.pow((a.getI() - b.getI()), 2) + Math.pow((a.getJ() - b.getJ()), 2));
+            }
+        });
+    }
+
+    //initialize potential competitors
+    public void initializeNeighbors(ArrayList<SensorNode> nodeList, double r) {
+        for (int i = 0; i < nodeList.size(); i++) {
+            //does not compare with itself
+            if (i == this.id) {
+                continue;
+            }
+            if (this.getDistance(nodeList.get(i)) <= 2 * r) {
+                this.neighbors.add(i);
                 this.num++;
             }
         }
@@ -240,22 +273,42 @@ public class SensorNode implements Comparable<SensorNode> {
     //=================================================DistributedRatio=====================================
 
     //==========================================UpdateR====================================
-    public void updateR(ArrayList<SensorNode> nodes) {
+    public void updateR(ArrayList<SensorNode> nodes, double rmax) {
         int senderCnt = 0;
-        for (int i = 0; i < this.targets.size(); i++) {
-            if (nodes.get(targets.get(i)).isSender()) {
+        for (int i = 0; i < this.neighbors.size(); i++) {
+            if (nodes.get(this.neighbors.get(i)).isSender()) {
                 senderCnt ++;
             }
         }
-        double r = this.r * ((this.targets.size() - senderCnt) * 1.0 / this.targets.size());
+
+        double r = rmax * ((this.neighbors.size() - senderCnt) * 1.0 / this.neighbors.size());
+        double lowerLimit = this.getLowerLimit(nodes, this.getCarriedSig());
+        if (r < 1) {
+            double coin = Math.random();
+            if (coin <= (1.0 / senderCnt)) {
+                r = rmax;
+            } else {
+                r = 0;
+            }
+        }
+        r = Math.max(r, lowerLimit);
         this.setR(r);
+        System.out.println("node: " + this.getId() + " neighboring senders: " + senderCnt + " new r: " + r);
+    }
+
+    //TODO: lower limit: distance to the nearest unisited target (under carriedSignal)
+    public double getLowerLimit(ArrayList<SensorNode> nodes, String sig) {
+        return 0.0;
     }
 
     //===================================Competitors=================================
     public void reachOut(ArrayList<SensorNode> nodes) {
         for (int i = 0; i < this.targets.size(); i++) {
             SensorNode receiver = nodes.get(this.targets.get(i));
-            receiver.addCompetitor(this.getId());
+            if (receiver.status != 0 || receiver.signals_set.contains(this.carriedSig)) {
+                continue;
+            }
+            receiver.addCompetitor(this.getId()); //only compete for possible receiver
         }
     }
 
@@ -271,16 +324,22 @@ public class SensorNode implements Comparable<SensorNode> {
         int id = -1;
         for (int i = 0; i < competitors.size(); i++) {
             SensorNode competitor = nodeList.get(competitors.get(i));
-            if (this.signals_set.contains(competitor.getCarriedSig())) {
-                continue;
-            }
             double dis = Math.sqrt(Math.pow((competitor.getI() - this.getI()), 2) + Math.pow((competitor.getJ() - this.getJ()), 2));
             if (i == 0 || dis < minDis) {
                 minDis = dis;
                 id = competitors.get(i);
             }
         }
+        System.out.println("node: " + this.getId() + " chooses: " + id);
         return id;
+    }
+
+    //=======================================Prepare Signal=====================================
+    //the node should carry a currently weakest signal
+    public void updateCarriedSignal() {
+        int range = this.signals_set.size();
+        int chosenIndex = new Random().nextInt(range);
+        this.setCarriedSig(new ArrayList<String>(this.signals_set).get(chosenIndex));
     }
 
     /**
