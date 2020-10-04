@@ -9,24 +9,26 @@ import java.util.ArrayList;
 
 public class tryMain {
 
-    public static int density = 3;// average #neighbors
+    public static int density = 4;// average #neighbors
     public static int L = 50 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 3; //fixed radius
     public static int N; //#nodes
     public static int K = 2; //#signals
-    public static int H = ((int)(Math.sqrt(2) * L) + 1) * K;  //max hops
+    public static int H = ((int)(Math.sqrt(2) * L) + 1);  //max hops
 
 
     public static void main(String[] args) {
         int N = (int)Math.min(computeN(A, L, density, r), A);
         System.out.println("computed N: " + N);
 
-        double res1 = 0;
-        double res2 = 0;
+        double res1 = 0, cost1= 0;
+        double res2 = 0, cost2 = 0;
         double res3 = 0;
 
-        for (int i = 0; i < 5; i++) {
+        double[] res;
+
+        for (int i = 0; i < 10; i++) {
             NodeList nodeList = new NodeList(N, L, r);
             //nodeList.show();
             PositionGraph positionGraph = nodeList.nodeListToPositionGraph(L);
@@ -37,7 +39,9 @@ public class tryMain {
 
 
             DistributedRatio dr = new DistributedRatio(nodes, signals, L, r, H, 0.5);
-            res1 += dr.run_res();
+            res = dr.run_res();
+            res1 += res[0];
+            cost1 += res[1];
 
             nodeList = new NodeList(N, L, r);
             //nodeList.show();
@@ -48,7 +52,9 @@ public class tryMain {
             nodes = nodeList.toSensorNodeArrayList(r);
 
             DistributedBase db = new DistributedBase(nodes, signals, L, r, H, 0.5);
-            res2 += db.run_res();
+            res = db.run_res();
+            res2 += res[0];
+            cost2 += res[1];
 
             nodeList = new NodeList(N, L, r);
             //nodeList.show();
@@ -62,8 +68,8 @@ public class tryMain {
             res3 += da.run_res();
 
         }
-        System.out.println("dr: " + res1 / 5.0);
-        System.out.println("db: " + res2 / 5.0);
+        System.out.println("dr: " + res1 / 5.0 + " @" + cost1/5.0);
+        System.out.println("db: " + res2 / 5.0 + " @" + cost2/5.0);
         System.out.println("da: " + res3 / 5.0);
 
     }

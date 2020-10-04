@@ -1,11 +1,6 @@
 package main.java;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 public class SensorNode implements Comparable<SensorNode> {
 
@@ -17,12 +12,13 @@ public class SensorNode implements Comparable<SensorNode> {
     public ArrayList<Integer> targets; //list of default receivers within the range rmax; in id //from closest to farest
     public ArrayList<Integer> neighbors; //list of potential competitors within in the range 2 * rmax; in id
     public HashSet<String> signals_set;
-    //public ArrayList<String> signals_arr;
+
     public int status; // 2 SEND; 0 RECEIVE; 1 RECEIVED IN THIS ROUND
     public int num; //current #available receivers
     //TODO: compute power consumption (r; dmax)
 
     public HashSet<Integer> competitors;
+    public HashMap<String, HashSet<Integer>> archive = new HashMap<>(); //signal - achieved receiver id, enriched along the way, for selecting carried signal
 
     public SensorNode(int i, int j, int id, double r) {
         this.i = i;
@@ -33,11 +29,11 @@ public class SensorNode implements Comparable<SensorNode> {
         this.targets = new ArrayList<Integer>();
         this.neighbors = new ArrayList<Integer>();
         this.signals_set = new HashSet<String>();
-        //this.signals_arr = new ArrayList<>();
         this.status = 0;
         this.num = 0;
 
         this.competitors = new HashSet<Integer>();
+        this.archive = new HashMap<>();
     }
 
     //===============================================Getters===================================
@@ -108,6 +104,23 @@ public class SensorNode implements Comparable<SensorNode> {
     //clear competitors
     public void clearCompetitors() {
         this.competitors.clear();
+    }
+
+    //archive a specific knowledge point (a signal) of the other id)
+    public void archive(String sig, int id) {
+        if (this.archive.containsKey(sig)) {
+            this.archive.get(sig).add(id);
+        } else {
+            this.archive.put(sig, new HashSet<>(id));
+        }
+    }
+
+    //archive the whole knowledge base of the other node with id
+    public void archive(HashSet<String> signals_set, int id) {
+        Iterator<String> it = signals_set.iterator();
+        while(it.hasNext()){
+            this.archive(it.next(), id);
+        }
     }
 
     //============================initialize default receivers===============================
@@ -234,8 +247,11 @@ public class SensorNode implements Comparable<SensorNode> {
         receiver.addSignal(sig);
         receiver.setStatus(1);
         receiver.setCarriedSig(sig);
+        receiver.archive(sig, receiver.getId());
+        receiver.archive(this.signals_set, this.getId()); //the receiver archive the sender
 
         this.setStatus(3); //become a successful sender
+        this.archive(sig, receiver.getId());
 
         System.out.println(this.id + "(" + sig + ")" + " -> " + receiver.getId());
 
@@ -312,17 +328,18 @@ public class SensorNode implements Comparable<SensorNode> {
         double r;
         double coin = Math.random();
         if (round % 2 == 1) {
-            p = 0.2;
+            p = 0.5;
             r = rmax;
         } else {
-            p = 0.8;
+            p = 1;
             r = this.getLowerLimit(nodes, this.carriedSig);
         }
 
         if (coin <= p) {
-            this.setR(r);
+            this.setR(r);System.out.println("node: " + this.getId() + " r: " + r);
         } else {
             this.setR(0.0);
+            System.out.println("node: " + this.getId() + " r: " + 0);
         }
     }
 
@@ -340,6 +357,7 @@ public class SensorNode implements Comparable<SensorNode> {
                 continue;
             }
             receiver.addCompetitor(this.getId()); //only compete for possible receiver
+            System.out.println(this.getId() + " reaches out to: " + receiver.getId());
         }
     }
 
@@ -388,9 +406,22 @@ public class SensorNode implements Comparable<SensorNode> {
     //=======================================Prepare Signal=====================================
     //the node should carry a randomly chosen signal from his pool
     public void updateCarriedSignal() {
-        int range = this.signals_set.size();
-        int chosenIndex = new Random().nextInt(range);
-        this.setCarriedSig(new ArrayList<String>(this.signals_set).get(chosenIndex));
+        String thisSig;
+        String chosenSig = ""; //dummy
+        int numSig = 0; //dummy
+        int index = 0;
+        Iterator<String> it = signals_set.iterator();
+
+        while(it.hasNext()){
+            thisSig = it.next();
+            if (index == 0 || this.archive.get(thisSig).size() < numSig) {
+                numSig = this.archive.get(thisSig).size(); //store the #receivers of the first signals, and any less popular signals
+                chosenSig = thisSig;
+            }
+            index ++;
+        }
+        System.out.println(this.getId() +" brings: " + chosenSig);
+        this.setCarriedSig(chosenSig);
     }
 
     /**

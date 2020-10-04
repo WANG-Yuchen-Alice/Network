@@ -24,6 +24,8 @@ Key rules to follow:
 S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3
  */
 
+//whenever someone sends to our receives from a node, this node knows the knowledge of the partner
+
 public class DistributedAlternative {
 
     public int N;
@@ -104,6 +106,12 @@ public class DistributedAlternative {
 
         senders = convertWeakSenderToReceiver(senders); //if a sender's radius is chosen to be 0, convert it to a receiver
 
+        System.out.print("senders in this round: ");
+        for (SensorNode s: senders) {
+            System.out.print(s.getId() + " " + s.status);
+        }
+        System.out.println();
+
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool
             senders.get(i).reachOut(this.nodeList);
@@ -178,6 +186,7 @@ public class DistributedAlternative {
             thisOriSender.addSignal(thisTag); //all original senders "has known" the corresponding tag
             thisOriSender.setCarriedSig(thisTag);
             thisOriSender.setStatus(2); //make sure the original ones are senders
+            thisOriSender.archive(thisTag, thisIndex); //the original sender archives this signal for himself
         }
         return new ArrayList<>(oriSenders);
     }

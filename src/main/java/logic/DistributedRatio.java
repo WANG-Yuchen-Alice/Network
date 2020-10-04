@@ -50,6 +50,7 @@ public class DistributedRatio {
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
 
     public double performance;
+    public double cost;
 
     public DistributedRatio(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
         this.N = nodeList.size();
@@ -69,6 +70,7 @@ public class DistributedRatio {
         //this.board = new int[this.N];
 
         this.performance = 0.0;
+        this.cost = 0.0;
     }
 
     public void run() {
@@ -80,14 +82,17 @@ public class DistributedRatio {
         process(oriNodes);
     }
 
-    public double run_res() {
+    public double[] run_res() {
         System.out.println("max hop: " + this.maxHop);
         initializeBigList();
         showBigList();
         ArrayList<Integer> oriSenders = prepareOriSenders();
         ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
         process(oriNodes);
-        return this.performance;
+        double[] res = new double[2];
+        res[0] = this.performance;
+        res[1] = this.cost;
+        return res;
     }
 
     public void process(ArrayList<SensorNode> senders) {
@@ -131,6 +136,7 @@ public class DistributedRatio {
 
             for (Integer id: chosenSenderId) {
                 nodeList.get(id).sendTo(thisReceiver, tagCounter, tagCounter_set);
+                this.cost += nodeList.get(id).getR();
             }
         }
 
@@ -185,6 +191,7 @@ public class DistributedRatio {
             thisOriSender.addSignal(thisTag); //all original senders "has known" the corresponding tag
             thisOriSender.setCarriedSig(thisTag);
             thisOriSender.setStatus(2); //make sure the original ones are senders
+            thisOriSender.archive(thisTag, thisIndex); //the original sender archives this signal for himself
         }
         return new ArrayList<>(oriSenders);
     }
