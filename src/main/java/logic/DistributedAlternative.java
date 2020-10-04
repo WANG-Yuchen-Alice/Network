@@ -31,7 +31,7 @@ S: 2; R: 0; just received in the current round: 1; just sent in the current roun
 //capture effect: possibility, thresholding
 //TODO: check success via feedback update achievement
 
-public class DistributedRatio {
+public class DistributedAlternative {
 
     public int N;
     public int L;
@@ -51,7 +51,7 @@ public class DistributedRatio {
 
     public double performance;
 
-    public DistributedRatio(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
+    public DistributedAlternative(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
         this.N = nodeList.size();
         this.L = L;
         this.rmax = rmax;
@@ -251,11 +251,11 @@ public class DistributedRatio {
     public ArrayList<SensorNode> convertWeakSenderToReceiver(ArrayList<SensorNode> senders) {
         ArrayList<SensorNode> newSenders = new ArrayList<>();
         for (SensorNode s: senders) {
-           if (s.getR() > 0) {
-               newSenders.add(s);
-           } else {
-               s.setStatus(0);
-           }
+            if (s.getR() > 0) {
+                newSenders.add(s);
+            } else {
+                s.setStatus(0);
+            }
         }
         return newSenders;
     }

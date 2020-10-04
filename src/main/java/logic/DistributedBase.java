@@ -12,7 +12,8 @@ import java.util.Random;
 by following specific rules.
 The information available includes:
 - distance to another node
-- #senders in the neighborhood -> radius for senders
+- feed back from another node after each round of sending (in deciding the success rate)
+- #senders in the neighborhood
 
 Key rules to follow:
 - for all senders, the sending power is decided by the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
@@ -27,11 +28,11 @@ S: 2; R: 0; just received in the current round: 1; just sent in the current roun
  */
 
 //TODO: network code: emcompass more signals - result should be improved
-//failed sender, more SOLO time
+//TODO: failed sender, more SOLO time
 //capture effect: possibility, thresholding
 //TODO: check success via feedback update achievement
 
-public class DistributedRatio {
+public class DistributedBase {
 
     public int N;
     public int L;
@@ -51,7 +52,7 @@ public class DistributedRatio {
 
     public double performance;
 
-    public DistributedRatio(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
+    public DistributedBase(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
         this.N = nodeList.size();
         this.L = L;
         this.rmax = rmax;
@@ -105,11 +106,8 @@ public class DistributedRatio {
         System.out.println("round: " + round);
 
         for (int i = 0; i < senders.size(); i++) {
-            SensorNode thisSender = senders.get(i);
-            thisSender.updateR(this.nodeList, this.rmax);
+            senders.get(i).setR(this.rmax);
         }
-
-        //senders = convertWeakSenderToReceiver(senders); //if a sender's radius is chosen to be 0, convert it to a receiver
 
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool
@@ -177,7 +175,7 @@ public class DistributedRatio {
             }
             oriSenders.add(thisIndex);
             tagCounter.put(thisTag, 1);
-            tagCounter_set.put(thisTag, new HashSet<Integer>());
+            tagCounter_set.put(thisTag, new HashSet<>());
             tagCounter_set.get(thisTag).add(thisIndex);
 
             SensorNode thisOriSender = this.nodeList.get(thisIndex);
@@ -205,22 +203,14 @@ public class DistributedRatio {
         ArrayList<SensorNode> senders = new ArrayList<>();
         for (int i = 0; i < this.N; i++) {
             SensorNode thisNode = this.nodeList.get(i);
-            if (thisNode.status == 3) { //successful SEND in this round, RECEIVE in the next round
+            if (thisNode.status == 2) { //SEND in this round, RECEIVE in the next round
                 thisNode.setStatus(0);
-            } else if (thisNode.status == 2) { //failed sender, flip a coin to decide whether to continue
-                double coin = Math.random();
-                if (coin > this.failedSenderThreshold) {
-                    thisNode.setStatus(2);
-                    senders.add(thisNode);
-                } else {
-                    thisNode.setStatus(0);
-                }
             } else if (thisNode.status == 1) { //successful RECEIVE in this round, SEND in the next
                 thisNode.setStatus(2);
                 senders.add(thisNode);
             } else { //failed Receiver, check if got signal yet
                 if (thisNode.signals_set.size() > 0) {
-                    double coin = Math.random(); //flip a coin to to decide whether to continue
+                    double coin = Math.random();
                     if (coin > this.failedSenderThreshold) {
                         thisNode.setStatus(2);
                         senders.add(thisNode);
@@ -251,11 +241,11 @@ public class DistributedRatio {
     public ArrayList<SensorNode> convertWeakSenderToReceiver(ArrayList<SensorNode> senders) {
         ArrayList<SensorNode> newSenders = new ArrayList<>();
         for (SensorNode s: senders) {
-           if (s.getR() > 0) {
-               newSenders.add(s);
-           } else {
-               s.setStatus(0);
-           }
+            if (s.getR() > 0) {
+                newSenders.add(s);
+            } else {
+                s.setStatus(0);
+            }
         }
         return newSenders;
     }
@@ -288,4 +278,6 @@ public class DistributedRatio {
             System.out.println(nodes.get(i).getId());
         }
     }
+
+
 }

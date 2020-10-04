@@ -1,2 +1,0 @@
-Codecast
-distributed many-to-many communication protocol with optimal degree codewords that maximizes the probability of decoding new information.

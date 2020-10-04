@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.logic.DistributedBase;
 import main.java.logic.DistributedRatio;
 import main.java.tool.SignalGenerator;
 
@@ -10,10 +11,10 @@ public class DistributedRatioMain {
     public static int density = 2;// average #neighbors
     public static int L = 10 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
-    public static double r = 2; //fixed radius
+    public static double r = 3; //fixed radius
     public static int N; //#nodes
     public static int K = 2; //#signals
-    public static int H = ((int)((Math.sqrt(2) * L)/2) + 1) * K * 3;  //max hops
+    public static int H = ((int)(Math.sqrt(2) * L) + 1) * K;  //max hops
 
 
     public static void main(String[] args) {
@@ -30,6 +31,8 @@ public class DistributedRatioMain {
 
         DistributedRatio dr = new DistributedRatio(nodes, signals, L, r, H, 0.5);
         dr.run();
+//        DistributedBase db = new DistributedBase(nodes, signals, L, r, H, 0.5);
+//        db.run();
     }
 
     public static int computeN(double A, int L, int density, double r) {

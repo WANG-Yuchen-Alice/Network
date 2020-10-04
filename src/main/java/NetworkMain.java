@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class NetworkMain {
 
     public static int density = 2;// average #neighbors
-    public static int L = 10 ; //#length
+    public static int L = 20 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 2; //fixed radius
     public static int N; //#nodes
-    public static int K = 1; //#signals
-    public static int H = ((int)((Math.sqrt(2) * L)/r) + 1) * K;  //max hops
+    public static int K = 3; //#signals
+    public static int H = ((int)(Math.sqrt(2) * L) + 1) * K;  //max hops
 
     public static void main(String[] args) {
         int N = (int)Math.min(computeN(A, L, density, r), A);

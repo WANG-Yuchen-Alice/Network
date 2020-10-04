@@ -77,7 +77,7 @@ public class SensorNode implements Comparable<SensorNode> {
     //===============================================Setters===================================
 
     public void setStatus(int status) {
-        if (status != 0 && status != 1 && status != 2) {
+        if (status != 0 && status != 1 && status != 2 && status != 3) {
             System.out.println("Sensornode set status wrong: " + status);
         } else {
             this.status = status;
@@ -215,7 +215,7 @@ public class SensorNode implements Comparable<SensorNode> {
         return "";
     }
 
-    public void sendTo(SensorNode receiver, HashMap<String, Integer> tagCounter) {
+    public void sendTo(SensorNode receiver, HashMap<String, Integer> tagCounter, HashMap<String, HashSet<Integer>> tagCounter_set) {
         if (this.signals_set.isEmpty()) {
             System.out.println("error: sender with empty signal pool");
             return;
@@ -227,14 +227,21 @@ public class SensorNode implements Comparable<SensorNode> {
 
         String sig = this.getCarriedSig();
 
+        if (tagCounter_set.get(sig).contains(receiver.getId())) {
+            return;
+        }
+
         receiver.addSignal(sig);
         receiver.setStatus(1);
         receiver.setCarriedSig(sig);
+
+        this.setStatus(3); //become a successful sender
 
         System.out.println(this.id + "(" + sig + ")" + " -> " + receiver.getId());
 
         int newNum = tagCounter.get(sig) + 1;
         tagCounter.put(sig, newNum);
+        tagCounter_set.get(sig).add(receiver.getId());
     }
 
     //count receivers
@@ -281,24 +288,26 @@ public class SensorNode implements Comparable<SensorNode> {
             }
         }
 
-        double r = rmax * ((this.neighbors.size() - senderCnt) * 1.0 / this.neighbors.size());
+        double p = 1.0 / senderCnt; //each sender has the probability of p to send at full power, the others take the lower limit
         double lowerLimit = this.getLowerLimit(nodes, this.getCarriedSig());
-        if (r < 1) {
-            double coin = Math.random();
-            if (coin <= (1.0 / senderCnt)) {
-                r = rmax;
-            } else {
-                r = 0;
-            }
+
+        double coin = Math.random();
+        //System.out.println("node: " + this.getId() + " neighboring senders: " + senderCnt);
+        if (coin <= p) {
+            this.setR(rmax);
+            //System.out.println(" new r: " + rmax);
+        } else {
+            this.setR(lowerLimit);
+            //System.out.println(" new r: " + lowerLimit);
         }
-        r = Math.max(r, lowerLimit);
-        this.setR(r);
-        System.out.println("node: " + this.getId() + " neighboring senders: " + senderCnt + " new r: " + r);
+
+        System.out.println(this.getId() + " r: " + this.getR());
+
     }
 
     //TODO: lower limit: distance to the nearest unisited target (under carriedSignal)
     public double getLowerLimit(ArrayList<SensorNode> nodes, String sig) {
-        return 0.0;
+        return 1.0;
     }
 
     //===================================Competitors=================================
@@ -312,30 +321,50 @@ public class SensorNode implements Comparable<SensorNode> {
         }
     }
 
-    //choose the best competitor, return its id
+    //allow competitors based on probability (dis -> power), return its id
     //if the receiving node is not open, return -1
-    //TODO: threshold
-    public int chooseSender(ArrayList<SensorNode> nodeList) {
-        if (this.status != 0 || this.competitors.size() == 0) {
-            return -1;
+    //p(received) = dis^2 / sum(dis^2)
+    public ArrayList<Integer> chooseSender(ArrayList<SensorNode> nodeList) {
+        ArrayList<Integer> successfulSenders = new ArrayList<>();
+
+        //if not a reveiver / no competitors: returned list has 0 length
+        if (this.competitors.size() == 0) {
+            return successfulSenders;
         }
-        ArrayList<Integer> competitors = new ArrayList<>(this.competitors);
-        double minDis = 500.0;
+
+        ArrayList<Integer> competitors = new ArrayList<>(this.competitors); //competitor id
+        //ArrayList<Double> distances = new ArrayList<>(); //competitor dis
+
+
         int id = -1;
+        double sum = 0.0; //denominator
+
         for (int i = 0; i < competitors.size(); i++) {
             SensorNode competitor = nodeList.get(competitors.get(i));
-            double dis = Math.sqrt(Math.pow((competitor.getI() - this.getI()), 2) + Math.pow((competitor.getJ() - this.getJ()), 2));
-            if (i == 0 || dis < minDis) {
-                minDis = dis;
-                id = competitors.get(i);
+            //double dis = Math.sqrt(Math.pow((competitor.getI() - this.getI()), 2) + Math.pow((competitor.getJ() - this.getJ()), 2));
+            assert competitor.getR() == 2;
+            sum += Math.pow(competitor.getR(), 2);
+            //distances.add(Math.pow(, 2));
+        }
+
+        double p = 0.0; //probability of getting through
+        double coin = 0.0; //flip the coin
+
+        for (int i = 0; i < competitors.size(); i++) {
+            SensorNode competitor = nodeList.get(competitors.get(i));
+            p = Math.pow(competitor.getR(), 2) / sum; //(0, 1), if no competitors => 1; if many competitors => 0
+            coin = Math.random();
+            if (coin <= p) { //ok
+                successfulSenders.add(competitor.getId()); //add the id of the successful sender to returned list
             }
         }
-        System.out.println("node: " + this.getId() + " chooses: " + id);
-        return id;
+
+        System.out.println("node: " + this.getId() + " chooses: " + successfulSenders);
+        return successfulSenders;
     }
 
     //=======================================Prepare Signal=====================================
-    //the node should carry a currently weakest signal
+    //the node should carry a randomly chosen signal from his pool
     public void updateCarriedSignal() {
         int range = this.signals_set.size();
         int chosenIndex = new Random().nextInt(range);
