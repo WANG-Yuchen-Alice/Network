@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.logic.DistributedAlternative;
 import main.java.logic.DistributedBase;
 import main.java.logic.DistributedRatio;
 import main.java.tool.SignalGenerator;
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 
 public class tryMain {
 
-    public static int density = 2;// average #neighbors
-    public static int L = 20 ; //#length
+    public static int density = 3;// average #neighbors
+    public static int L = 50 ; //#length
     public static double A = (1.0) * L * L; // size of the graph
     public static double r = 3; //fixed radius
     public static int N; //#nodes
@@ -23,6 +24,8 @@ public class tryMain {
 
         double res1 = 0;
         double res2 = 0;
+        double res3 = 0;
+
         for (int i = 0; i < 5; i++) {
             NodeList nodeList = new NodeList(N, L, r);
             //nodeList.show();
@@ -47,9 +50,21 @@ public class tryMain {
             DistributedBase db = new DistributedBase(nodes, signals, L, r, H, 0.5);
             res2 += db.run_res();
 
+            nodeList = new NodeList(N, L, r);
+            //nodeList.show();
+            positionGraph = nodeList.nodeListToPositionGraph(L);
+            //positionGraph.displayPositionGraph();
+            signals = new ArrayList<>();
+            generateSignals(signals, K);
+            nodes = nodeList.toSensorNodeArrayList(r);
+
+            DistributedAlternative da = new DistributedAlternative(nodes, signals, L, r, H, 0.5);
+            res3 += da.run_res();
+
         }
         System.out.println("dr: " + res1 / 5.0);
         System.out.println("db: " + res2 / 5.0);
+        System.out.println("da: " + res3 / 5.0);
 
     }
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-/* In DstributedRatio, there is no central agent that sorts and controls the nodes. Each node sends freely in each round,
+/* In DistributedRatio, there is no central agent that sorts and controls the nodes. Each node sends freely in each round,
 by following specific rules.
 The information available includes:
 - distance to another node

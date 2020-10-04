@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-/* In DstributedRatio, there is no central agent that sorts and controls the nodes. Each node sends freely in each round,
-by following specific rules.
+/* DistributedBase serves as a base line of DistributedRation algorithm, where there is no varied power. All nodes send at Rmax
 The information available includes:
 - distance to another node
 - feed back from another node after each round of sending (in deciding the success rate)

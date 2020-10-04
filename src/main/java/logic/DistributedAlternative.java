@@ -3,33 +3,26 @@ package main.java.logic;
 import main.java.SensorNode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-/* In DstributedRatio, there is no central agent that sorts and controls the nodes. Each node sends freely in each round,
-by following specific rules.
+/* In DistributedAlternative, there is no central agent that sorts and controls the nodes. Each node sends freely in each round,
+by following specific rules. The number of senders are artificially controled by the algorithm. And senders vary their power
+alternatively in each round. Generally, odd round allow larger power but fewer senders, and even rounds are the opposite.
 The information available includes:
 - distance to another node
-- #senders in the neighborhood -> radius for senders
 
 Key rules to follow:
 - for all senders, the sending power is decided by the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
 ((#neighbors - #senders) / #neighbors). The more competitors there are in the neighborhood, the smaller the power range
-- capture effect in deciding for the successful senders [the strongest wins]
+- capture effect in deciding for the successful senders, the more senders, the less chance to get through
 - R (success) -> S
-- R (fail) -> R (empty pool); p(R) (non-empty) -p = threshold
-- S (fail) -> p(S) -p = threshold
 - S (success) -> R
+- S (fail) R(fail) -> p
 - status value:
-S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3?
+S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3
  */
-
-//TODO: network code: emcompass more signals - result should be improved
-//failed sender, more SOLO time
-//capture effect: possibility, thresholding
-//TODO: check success via feedback update achievement
 
 public class DistributedAlternative {
 
@@ -106,10 +99,10 @@ public class DistributedAlternative {
 
         for (int i = 0; i < senders.size(); i++) {
             SensorNode thisSender = senders.get(i);
-            thisSender.updateR(this.nodeList, this.rmax);
+            thisSender.updateR_alternative(this.nodeList, this.rmax, round);
         }
 
-        //senders = convertWeakSenderToReceiver(senders); //if a sender's radius is chosen to be 0, convert it to a receiver
+        senders = convertWeakSenderToReceiver(senders); //if a sender's radius is chosen to be 0, convert it to a receiver
 
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool

@@ -280,6 +280,7 @@ public class SensorNode implements Comparable<SensorNode> {
     //=================================================DistributedRatio=====================================
 
     //==========================================UpdateR====================================
+    //update R based on the number of competitive senders. The more, the less likely to get the chance
     public void updateR(ArrayList<SensorNode> nodes, double rmax) {
         int senderCnt = 0;
         for (int i = 0; i < this.neighbors.size(); i++) {
@@ -305,9 +306,30 @@ public class SensorNode implements Comparable<SensorNode> {
 
     }
 
-    //TODO: lower limit: distance to the nearest unisited target (under carriedSignal)
+    //update R based on the number of competitive senders. The more, the less likely to get the chance
+    public void updateR_alternative(ArrayList<SensorNode> nodes, double rmax, int round) {
+        double p; //probability of being a sender
+        double r;
+        double coin = Math.random();
+        if (round % 2 == 1) {
+            p = 0.2;
+            r = rmax;
+        } else {
+            p = 0.8;
+            r = this.getLowerLimit(nodes, this.carriedSig);
+        }
+
+        if (coin <= p) {
+            this.setR(r);
+        } else {
+            this.setR(0.0);
+        }
+    }
+
+    //TODO: lower limit: distance to the nearest unvisited target (under carriedSignal)
     public double getLowerLimit(ArrayList<SensorNode> nodes, String sig) {
-        return 1.0;
+        SensorNode closestReceiver = nodes.get(this.targets.get(0));
+        return this.getDistance(closestReceiver);
     }
 
     //===================================Competitors=================================
