@@ -128,6 +128,7 @@ public class DistributedRatio {
                 continue;
             }
 
+            /* Choose a list of senders
             ArrayList<Integer> chosenSenderId = thisReceiver.chooseSender(this.nodeList);
             //if no competitors ever or nobody, skip
             if (chosenSenderId.size() == 0) {
@@ -138,6 +139,17 @@ public class DistributedRatio {
                 nodeList.get(id).sendTo(thisReceiver, tagCounter, tagCounter_set);
                 this.cost += nodeList.get(id).getR();
             }
+             */
+
+            //choose 1 sender
+            int chosenSenderId = thisReceiver.chooseOneSender(this.nodeList);
+            //if no competitors ever or nobody, skip
+            if (chosenSenderId == -1) {
+                continue;
+            }
+
+            nodeList.get(chosenSenderId).sendTo(thisReceiver, tagCounter, tagCounter_set);
+            this.cost += nodeList.get(chosenSenderId).getR();
         }
 
         senders = prepareSenderForNextRound();

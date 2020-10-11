@@ -23,6 +23,7 @@ public class StrongSigSends {
     public int doneTags;
     public int round;
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
+    public double performance;
 
     public StrongSigSends(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H) {
         this.N = nodeList.size();
@@ -38,6 +39,8 @@ public class StrongSigSends {
         this.doneTags =  0;
         this.round = 0;
         //this.board = new int[this.N];
+
+        this.performance = 0.0;
     }
 
     public void run() {
@@ -47,6 +50,16 @@ public class StrongSigSends {
         ArrayList<Integer> oriSenders = prepareOriSenders();//TODO: original senders should not send in the same round perhaps?
         ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
         process(oriNodes);
+    }
+
+    public double run_res() {
+        System.out.println("max hop: " + this.maxHop);
+        initializeBigList();
+        showBigList();
+        ArrayList<Integer> oriSenders = prepareOriSenders();
+        ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
+        process(oriNodes);
+        return this.performance;
     }
 
     public void process(ArrayList<SensorNode> senders) {
@@ -61,15 +74,18 @@ public class StrongSigSends {
         }
         //This is round n starting from 1, till maxHop
         this.round ++;
+        System.out.println("round: " + this.round);
         if (round > 1) { //Only in the first round do all senders have updated num (from initilizeBigList())
             updateSenderHierarchy(senders);
         }
         Collections.sort(senders); //sort the senders based on their range of power
+        System.out.println("after sorting: ");
+        printList(senders);
 
         while(senders.size() > 0) {
             //this node is sending now
             SensorNode thisSender = senders.get(0); //always pick the first one - the most powerful one
-            if (thisSender.getNum() < 0) {
+            if (thisSender.getNum() <= 0) {
                 break;
             }
             String oneMoreDoneTag = thisSender.send(this.nodeList, tagCounter);
@@ -79,6 +95,7 @@ public class StrongSigSends {
                 System.out.println("=================yeah tag done: " + oneMoreDoneTag);
                 if (this.doneTags == this.signals.size()) {
                     System.out.println("Everything done");
+                    reportResults();
                     return;
                 }
             }
@@ -158,11 +175,19 @@ public class StrongSigSends {
         ArrayList<SensorNode> senders = new ArrayList<>();
         for (int i = 0; i < this.N; i++) {
             SensorNode thisNode = this.nodeList.get(i);
-            if (thisNode.status == 2) { //SEND in this round, RECEIVE in the next round
+            if (thisNode.status == 3) { //successfully SEND in this round, RECEIVE in the next round
                 thisNode.setStatus(0);
             } else if (thisNode.status == 1) { //successful RECEIVE in this round, SEND in the next
                 thisNode.setStatus(2);
                 senders.add(thisNode);
+            } else if (thisNode.status == 2) { //failed sender
+                double coin = Math.random();
+                if (coin <= 0.5) {
+                    thisNode.setStatus(2);
+                    senders.add(thisNode);
+                } else {
+                    thisNode.setStatus(0);
+                }
             } else { //0 in this round, unsuccessful RECEIVER, check if got signal yet
                 if (thisNode.signals_set.size() > 0) {
                     thisNode.setStatus(2);
@@ -182,7 +207,9 @@ public class StrongSigSends {
             String sig = this.signals.get(i);
             int outcome = this.tagCounter.get(this.signals.get(i));
             System.out.println(sig + " " + outcome + " " + (outcome * 100.0 / this.N) + "%");
+            this.performance += (outcome * 100.0 / this.N);
         }
+        this.performance /= this.signals.size();
     }
 
     //================================Tools=============================

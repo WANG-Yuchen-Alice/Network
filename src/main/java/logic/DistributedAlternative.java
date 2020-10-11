@@ -14,8 +14,9 @@ The information available includes:
 - distance to another node
 
 Key rules to follow:
-- for all senders, the sending power is decided by the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
-((#neighbors - #senders) / #neighbors). The more competitors there are in the neighborhood, the smaller the power range
+- for all senders, the sending power is indirectly controlled by the algorithm.
+In alternative round, there are more and less senders, and the more competitors there are in the neighborhood,
+the smaller the power range
 - capture effect in deciding for the successful senders, the more senders, the less chance to get through
 - R (success) -> S
 - S (success) -> R
@@ -124,6 +125,7 @@ public class DistributedAlternative {
                 continue;
             }
 
+            /* Choose a list of senders
             ArrayList<Integer> chosenSenderId = thisReceiver.chooseSender(this.nodeList);
             //if no competitors ever or nobody, skip
             if (chosenSenderId.size() == 0) {
@@ -132,7 +134,18 @@ public class DistributedAlternative {
 
             for (Integer id: chosenSenderId) {
                 nodeList.get(id).sendTo(thisReceiver, tagCounter, tagCounter_set);
+                this.cost += nodeList.get(id).getR();
             }
+             */
+
+            //choose 1 sender
+            int chosenSenderId = thisReceiver.chooseOneSender(this.nodeList);
+            //if no competitors ever or nobody, skip
+            if (chosenSenderId == -1) {
+                continue;
+            }
+
+            nodeList.get(chosenSenderId).sendTo(thisReceiver, tagCounter, tagCounter_set);
         }
 
         senders = prepareSenderForNextRound();

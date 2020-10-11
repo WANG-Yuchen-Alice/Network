@@ -3,35 +3,28 @@ package main.java.logic;
 import main.java.SensorNode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-/* DistributedBase serves as a base line of DistributedRation algorithm, where there is no varied power. All nodes send at Rmax
-The information available includes:
-- distance to another node
-- feed back from another node after each round of sending (in deciding the success rate)
-- #senders in the neighborhood
+/* Darkroom algorithm represents the baseline situation in dsitrbutied version, where there is no central agent and sensornodes know
+nothing about each other at the beginning.
+This version serves as a baseline of the distributed version.
 
 Key rules to follow:
-- for all senders, the sending power is decided by the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
+- for all senders, the sending power is decided and indirectly controlled by the round number the level of uniqueness: r = rmax * (#receivers / #neighbors) = rmax *
 ((#neighbors - #senders) / #neighbors). The more competitors there are in the neighborhood, the smaller the power range
-- capture effect in deciding for the successful senders [the strongest wins]
+- capture effect in deciding for the successful senders, the more senders, the less chance to get through
 - R (success) -> S
-- R (fail) -> R (empty pool); p(R) (non-empty) -p = threshold
-- S (fail) -> p(S) -p = threshold
 - S (success) -> R
+- S (fail) R(fail) -> p
 - status value:
-S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3?
+S: 2; R: 0; just received in the current round: 1; just sent in the current round: 3
  */
 
-//TODO: network code: emcompass more signals - result should be improved
-//TODO: failed sender, more SOLO time
-//capture effect: possibility, thresholding
-//TODO: check success via feedback update achievement
+//whenever someone sends to our receives from a node, this node knows the knowledge of the partner
 
-public class DistributedBase {
+public class Darkroom {
 
     public int N;
     public int L;
@@ -50,9 +43,8 @@ public class DistributedBase {
     //public int[] board; //dynamically updated in each round, SENDERS 2, RECEIVERS 0, JUST ReCEIVED 1; by default all 0
 
     public double performance;
-    public double cost;
 
-    public DistributedBase(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
+    public Darkroom(ArrayList<SensorNode> nodeList, ArrayList<String> signals, int L, double rmax, int H, double threshold1) {
         this.N = nodeList.size();
         this.L = L;
         this.rmax = rmax;
@@ -70,7 +62,6 @@ public class DistributedBase {
         //this.board = new int[this.N];
 
         this.performance = 0.0;
-        this.cost = 0.0;
     }
 
     public void run() {
@@ -82,17 +73,14 @@ public class DistributedBase {
         process(oriNodes);
     }
 
-    public double[] run_res() {
+    public double run_res() {
         System.out.println("max hop: " + this.maxHop);
         initializeBigList();
         showBigList();
         ArrayList<Integer> oriSenders = prepareOriSenders();
         ArrayList<SensorNode> oriNodes = idToNodes(oriSenders);
         process(oriNodes);
-        double[] res = new double[2];
-        res[0] = this.performance;
-        res[1] = this.cost;
-        return res;
+        return this.performance;
     }
 
     public void process(ArrayList<SensorNode> senders) {
@@ -110,8 +98,15 @@ public class DistributedBase {
         System.out.println("round: " + round);
 
         for (int i = 0; i < senders.size(); i++) {
-            senders.get(i).setR(this.rmax);
+            SensorNode thisSender = senders.get(i);
+            thisSender.setR(rmax);
         }
+
+        System.out.print("senders in this round: ");
+        for (SensorNode s: senders) {
+            System.out.print(s.getId() + " " + s.status);
+        }
+        System.out.println();
 
         for (int i = 0; i < senders.size(); i++) {
             //reach out to the targets and apply to be added to the competitor pool
@@ -125,18 +120,6 @@ public class DistributedBase {
                 continue;
             }
 
-            /* choose a list of sender
-            ArrayList<Integer> chosenSenderId = thisReceiver.chooseSender(this.nodeList);
-            //if no competitors ever or nobody, skip
-            if (chosenSenderId.size() == 0) {
-                continue;
-            }
-
-            for (Integer id: chosenSenderId) {
-                nodeList.get(id).sendTo(thisReceiver, tagCounter, tagCounter_set);
-                this.cost += this.rmax;
-            }**/
-
             //choose 1 sender
             int chosenSenderId = thisReceiver.chooseOneSender(this.nodeList);
             //if no competitors ever or nobody, skip
@@ -145,12 +128,11 @@ public class DistributedBase {
             }
 
             nodeList.get(chosenSenderId).sendTo(thisReceiver, tagCounter, tagCounter_set);
-            this.cost += nodeList.get(chosenSenderId).getR();
         }
 
-        senders = prepareSenderForNextRound();
+        senders = prepareSenderForNextRound_base();
         clearCompetitors();
-        updateCarriedSignals(senders);
+        updateCarriedSignals_base(senders);
         process(senders);
     }
 
@@ -191,7 +173,7 @@ public class DistributedBase {
             }
             oriSenders.add(thisIndex);
             tagCounter.put(thisTag, 1);
-            tagCounter_set.put(thisTag, new HashSet<>());
+            tagCounter_set.put(thisTag, new HashSet<Integer>());
             tagCounter_set.get(thisTag).add(thisIndex);
 
             SensorNode thisOriSender = this.nodeList.get(thisIndex);
@@ -220,14 +202,22 @@ public class DistributedBase {
         ArrayList<SensorNode> senders = new ArrayList<>();
         for (int i = 0; i < this.N; i++) {
             SensorNode thisNode = this.nodeList.get(i);
-            if (thisNode.status == 2) { //SEND in this round, RECEIVE in the next round
+            if (thisNode.status == 3) { //successful SEND in this round, RECEIVE in the next round
                 thisNode.setStatus(0);
+            } else if (thisNode.status == 2) { //failed sender, flip a coin to decide whether to continue
+                double coin = Math.random();
+                if (coin > this.failedSenderThreshold) {
+                    thisNode.setStatus(2);
+                    senders.add(thisNode);
+                } else {
+                    thisNode.setStatus(0);
+                }
             } else if (thisNode.status == 1) { //successful RECEIVE in this round, SEND in the next
                 thisNode.setStatus(2);
                 senders.add(thisNode);
             } else { //failed Receiver, check if got signal yet
                 if (thisNode.signals_set.size() > 0) {
-                    double coin = Math.random();
+                    double coin = Math.random(); //flip a coin to to decide whether to continue
                     if (coin > this.failedSenderThreshold) {
                         thisNode.setStatus(2);
                         senders.add(thisNode);
@@ -237,6 +227,23 @@ public class DistributedBase {
                 } else {
                     thisNode.setStatus(0);
                 }
+            }
+        }
+        return senders;
+    }
+
+    public ArrayList<SensorNode> prepareSenderForNextRound_base() { //TODO: continuous failure should lead to freeze
+        //update status:
+        ArrayList<SensorNode> senders = new ArrayList<>();
+        for (int i = 0; i < this.N; i++) {
+            SensorNode thisNode = this.nodeList.get(i);
+            if (thisNode.status == 3 || thisNode.status == 2) { //successful SEND in this round, RECEIVE in the next round
+                thisNode.setStatus(0);
+            } else if (thisNode.signals_set.size() > 0){
+                thisNode.setStatus(2);
+                senders.add(thisNode);
+            } else {
+                thisNode.setStatus(0);
             }
         }
         return senders;
@@ -252,6 +259,12 @@ public class DistributedBase {
     public void updateCarriedSignals(ArrayList<SensorNode> senders) {
         for (SensorNode sender: senders) {
             sender.updateCarriedSignal();
+        }
+    }
+
+    public void updateCarriedSignals_base(ArrayList<SensorNode> senders) {
+        for (SensorNode sender: senders) {
+            sender.updateCarriedSignal_base();
         }
     }
 
@@ -295,6 +308,4 @@ public class DistributedBase {
             System.out.println(nodes.get(i).getId());
         }
     }
-
-
 }
